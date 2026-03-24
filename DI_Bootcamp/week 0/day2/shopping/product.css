@@ -1,0 +1,23 @@
+/* Product Layout using Inline-Block */
+.product-container {
+    text-align: center; /* Centers the inline-block cards */
+    padding: 50px 0;
+}
+
+.product-card {
+    display: inline-block;
+    width: 100px;
+    margin: 20px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    vertical-align: top; /* Keeps cards aligned at the top */
+    transition: box-shadow 0.3s;
+}
+
+.product-card:hover {
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.product-card img {
+    width: 100%;
+}
