@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Challenge: Create a solar system</title>
+    <style>
+        body {
+            background-color: black;
+            padding: 50px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: white;
+            text-align: center;
+        }
+
+        .listPlanets {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 60px;
+            margin-top: 50px;
+        }
+
+        .planet {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative; /* Essential for moon positioning */
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            font-weight: bold;
+            text-transform: capitalize;
+            box-shadow: inset -10px -10px 20px rgba(0,0,0,0.5);
+        }
+
+        .moon {
+            position: absolute;
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background: rgb(237, 237, 237);
+            border: 1px solid #999;
+            box-shadow: 0 0 5px white;
+        }
+
+        /* Specific Planet Colors */
+        .mercury { background-color: #8c8c8c; }
+        .venus   { background-color: #e3bb76; }
+        .earth   { background-color: #2271b3; }
+        .mars    { background-color: #e27b58; }
+        .jupiter { background-color: #d39c7e; }
+        .saturn  { background-color: #c5ab6e; }
+        .uranus  { background-color: #b5e3e3; }
+        .neptune { background-color: #4b70dd; }
+
+    </style>
+</head>
+<body>
+
+    <h1>Interactive Solar System</h1>
+    <p>Planets generated dynamically with their respective moons.</p>
+
+    <section class="listPlanets"></section>
+
+    <script>
+        // 1. Create an array of objects for the planets
+        const planets = [
+            { name: "mercury", color: "mercury", moons: 0 },
+            { name: "venus",   color: "venus",   moons: 0 },
+            { name: "earth",   color: "earth",   moons: 1 },
+            { name: "mars",    color: "mars",    moons: 2 },
+            { name: "jupiter", color: "jupiter", moons: 4 }, // Scaled down for visual clarity
+            { name: "saturn",  color: "saturn",  moons: 3 },
+            { name: "uranus",  color: "uranus",  moons: 2 },
+            { name: "neptune", color: "neptune", moons: 1 }
+        ];
+
+        const section = document.querySelector(".listPlanets");
+
+        // 2. Iterate through the planets array
+        planets.forEach((planet, index) => {
+            
+            // Create the Planet div
+            const planetDiv = document.createElement("div");
+            
+            // Add the general "planet" class and the specific color class
+            planetDiv.classList.add("planet");
+            planetDiv.classList.add(planet.color);
+            
+            // Set the text content
+            planetDiv.textContent = planet.name;
+
+            // 3. Bonus: Create the moons
+            for (let i = 0; i < planet.moons; i++) {
+                const moonDiv = document.createElement("div");
+                moonDiv.classList.add("moon");
+
+                // Position moons mathematically around the planet center
+                // We use offset values to prevent them from overlapping
+                const offset = 60 + (i * 15); 
+                const angle = (i * (360 / planet.moons)) * (Math.PI / 180);
+                
+                // Set moon position relative to planet center
+                moonDiv.style.left = (50 + Math.cos(angle) * offset - 7.5) + "px";
+                moonDiv.style.top = (50 + Math.sin(angle) * offset - 7.5) + "px";
+
+                planetDiv.appendChild(moonDiv);
+            }
+
+            // Append the finished planet to the section
+            section.appendChild(planetDiv);
+        });
+    </script>
+</body>
+</html>
