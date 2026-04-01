@@ -1,0 +1,66 @@
+<!doctype html> 
+<html lang="en"> 
+    <head> 
+        <meta charset="utf-8"> 
+        <title>Volume of a Sphere</title> 
+        <style>  
+            body {
+                padding: 30px;
+                font-family: sans-serif;
+            } 
+
+            label, input {
+                display: block;
+                margin-bottom: 10px;
+            }
+
+            input[type="submit"] {
+                margin-top: 10px;
+                cursor: pointer;
+            }
+        </style> 
+    </head> 
+    <body> 
+        <p>Input radius value and get the volume of a sphere.</p> 
+        <form id="MyForm"> 
+            <label for="radius">Radius</label>
+            <input type="text" name="radius" id="radius" required> 
+            
+            <label for="volume">Volume</label>
+            <input type="text" name="volume" id="volume" readonly> 
+            
+            <input type="submit" value="Calculate" id="submit">    
+        </form> 
+
+        <script>
+            // 1. Get the form element
+            const sphereForm = document.getElementById('MyForm');
+
+            // 2. Add the submit event listener
+            sphereForm.addEventListener('submit', function(event) {
+                // Prevent the form from refreshing the page
+                event.preventDefault();
+
+                // 3. Get the radius value from the input field
+                const radiusInput = document.getElementById('radius').value;
+                const radius = parseFloat(radiusInput);
+
+                // 4. Validate that the input is a positive number
+                if (!isNaN(radius) && radius >= 0) {
+                    /** * Formula: (4/3) * PI * r^3
+                     * Math.PI provides the value of π
+                     * Math.pow(radius, 3) raises radius to the power of 3
+                     */
+                    const volume = (4 / 3) * Math.PI * Math.pow(radius, 3);
+
+                    // 5. Display the result in the volume input field
+                    // .toFixed(2) rounds the result to 2 decimal places
+                    document.getElementById('volume').value = volume.toFixed(2);
+                } else {
+                    alert("Please enter a valid positive number for the radius.");
+                    document.getElementById('volume').value = "";
+                }
+            });
+        </script>
+    </body> 
+</html>

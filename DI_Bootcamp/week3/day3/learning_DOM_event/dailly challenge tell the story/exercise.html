@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Challenge: Mad Libs</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding: 40px;
+            background-color: #f4f4f9;
+            line-height: 1.6;
+        }
+        h1 {
+            color: #2c3e50;
+        }
+        form {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            display: inline-block;
+        }
+        label {
+            display: inline-block;
+            width: 130px;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+        input {
+            padding: 5px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            padding: 10px 15px;
+            margin-top: 10px;
+            cursor: pointer;
+            border: none;
+            border-radius: 4px;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+        #lib-button {
+            background-color: #27ae60;
+            color: white;
+        }
+        #lib-button:hover {
+            background-color: #219150;
+        }
+        #shuffle-button {
+            background-color: #3498db;
+            color: white;
+            display: none; /* Hidden until first story is generated */
+        }
+        #shuffle-button:hover {
+            background-color: #2980b9;
+        }
+        .story-container {
+            margin-top: 30px;
+            font-size: 1.2rem;
+            color: #34495e;
+            max-width: 500px;
+            padding: 15px;
+            border-left: 5px solid #27ae60;
+            background: #e8f6ef;
+        }
+        #story {
+            font-weight: bold;
+            color: #d35400;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Mad Libs</h1>
+
+    <form id="libform">
+        <label for="noun">Noun:</label>
+        <input type="text" id="noun" placeholder="e.g. Cat"><br>
+        
+        <label for="adjective">Adjective:</label>
+        <input type="text" id="adjective" placeholder="e.g. Purple"><br>
+        
+        <label for="person">Someone's Name:</label>
+        <input type="text" id="person" placeholder="e.g. Alice"><br>
+        
+        <label for="verb">Verb:</label>
+        <input type="text" id="verb" placeholder="e.g. Dance"><br>
+        
+        <label for="place">A place:</label>
+        <input type="text" id="place" placeholder="e.g. Mars"><br>
+        
+        <button id="lib-button" type="submit">Lib it!</button>
+        <button id="shuffle-button" type="button">Shuffle Story!</button>
+    </form>
+
+    <div class="story-container">
+        Generated story: <span id="story"></span>
+    </div>
+
+    <script>
+        const libForm = document.getElementById('libform');
+        const storySpan = document.getElementById('story');
+        const shuffleBtn = document.getElementById('shuffle-button');
+
+        // Array of story functions (The Bonus templates)
+        const storyTemplates = [
+            (n, a, p, v, pl) => `One day, ${p} went to ${pl} to ${v} with a very ${a} ${n}. It was a sight to behold!`,
+            (n, a, p, v, pl) => `The legend says that ${p} once found a ${a} ${n} in ${pl} and started to ${v} immediately.`,
+            (n, a, p, v, pl) => `In the year 2026, ${p} traveled to ${pl}. There, they met a ${a} ${n} who taught them how to ${v}.`,
+            (n, a, p, v, pl) => `Why did ${p} ${v} in ${pl}? Simply because they were holding a ${a} ${n}!`
+        ];
+
+        // Function to gather values and display a random story
+        function libIt() {
+            // Get values from inputs
+            const noun = document.getElementById('noun').value.trim();
+            const adj = document.getElementById('adjective').value.trim();
+            const person = document.getElementById('person').value.trim();
+            const verb = document.getElementById('verb').value.trim();
+            const place = document.getElementById('place').value.trim();
+
+            // Check if any value is empty
+            if (noun === "" || adj === "" || person === "" || verb === "" || place === "") {
+                alert("Wait! You missed a blank. Please fill in all fields.");
+                return;
+            }
+
+            // Pick a random story template
+            const randomIndex = Math.floor(Math.random() * storyTemplates.length);
+            const selectedTemplate = storyTemplates[randomIndex];
+
+            // Display the story
+            storySpan.textContent = selectedTemplate(noun, adj, person, verb, place);
+            
+            // Show the shuffle button after the first generation
+            shuffleBtn.style.display = "inline-block";
+        }
+
+        // Handle the main form submission
+        libForm.addEventListener('submit', function(event) {
+            event.preventDefault(); // Stop page refresh
+            libIt();
+        });
+
+        // Handle the shuffle button click
+        shuffleBtn.addEventListener('click', function() {
+            libIt();
+        });
+    </script>
+
+</body>
+</html>

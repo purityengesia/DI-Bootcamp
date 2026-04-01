@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Daily Challenge: Letters Only</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            padding: 50px;
+            text-align: center;
+        }
+        input {
+            padding: 10px;
+            font-size: 1.2rem;
+            width: 300px;
+            border: 2px solid #3498db;
+            border-radius: 5px;
+        }
+        p {
+            color: #7f8c8d;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Letters Only Input</h1>
+    <p>Try typing numbers or symbols—they won't appear!</p>
+    
+    <input type="text" id="letter-input" placeholder="Type letters here...">
+
+    <script>
+        const inputField = document.getElementById('letter-input');
+
+        inputField.addEventListener('input', function(event) {
+            // 1. Get the current value of the input
+            let value = event.target.value;
+
+            // 2. Use Regex to replace anything that is NOT a letter with an empty string
+            // /[^a-zA-Z]/g matches numbers, spaces, and special characters
+            let cleanValue = value.replace(/[^a-zA-Z]/g, '');
+
+            // 3. Update the input value with the cleaned version
+            event.target.value = cleanValue;
+        });
+    </script>
+
+</body>
+</html>

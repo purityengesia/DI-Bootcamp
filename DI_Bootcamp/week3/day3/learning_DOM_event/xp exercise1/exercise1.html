@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercise 1: DOM Manipulation</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        article {
+            max-width: 600px;
+            margin: 0 auto;
+            border: 1px solid #ccc;
+            padding: 20px;
+            border-radius: 8px;
+        }
+        /* CSS for the Bonus Fade Out */
+        .fade-out {
+            opacity: 0;
+            transition: opacity 1.5s ease;
+        }
+        button {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <article>
+        <h1> Some Facts </h1>
+        <h2> The Chocolate </h2>
+        <h3> History of the chocolate </h3>
+        <p> Chocolate is made from tropical Theobroma cacao tree seeds. 
+        Its earliest use dates back to the Olmec civilization in Mesoamerica.</p>
+        <p> After the European discovery of the Americas, chocolate became 
+        very popular in the wider world, and its demand exploded. </p>
+        <p> Chocolate has since become a popular food product that millions enjoy every day, 
+        thanks to its unique, rich, and sweet taste.</p> 
+        <p> But what effect does eating chocolate have on our health?</p> 
+    </article>
+
+    <script>
+        // 1. Retrieve the h1 and console.log it
+        const h1 = document.querySelector('h1');
+        console.log("The H1 element is:", h1);
+
+        // 2. Remove the last paragraph in the <article> tag
+        const article = document.querySelector('article');
+        const lastP = article.lastElementChild;
+        if (lastP && lastP.tagName === 'P') {
+            lastP.remove();
+        }
+
+        // 3. Change background color of h2 to red when clicked
+        const h2 = document.querySelector('h2');
+        h2.addEventListener('click', function() {
+            this.style.backgroundColor = 'red';
+        });
+
+        // 4. Hide h3 when clicked
+        const h3 = document.querySelector('h3');
+        h3.addEventListener('click', function() {
+            this.style.display = 'none';
+        });
+
+        // 5. Add a button that makes all paragraphs bold
+        const boldBtn = document.createElement('button');
+        boldBtn.textContent = "Make Text Bold";
+        document.body.appendChild(boldBtn);
+
+        boldBtn.addEventListener('click', function() {
+            const allPs = document.querySelectorAll('p');
+            allPs.forEach(p => {
+                p.style.fontWeight = 'bold';
+            });
+        });
+
+        // BONUS: Hover on h1 to set random font size (0 to 100px)
+        h1.addEventListener('mouseover', function() {
+            const randomSize = Math.floor(Math.random() * 101);
+            this.style.fontSize = randomSize + "px";
+        });
+
+        // BONUS: Hover on 2nd paragraph to fade out
+        // Note: we use querySelectorAll to find the 2nd index
+        const paragraphs = document.querySelectorAll('p');
+        if (paragraphs[1]) {
+            paragraphs[1].addEventListener('mouseover', function() {
+                this.classList.add('fade-out');
+            });
+        }
+    </script>
+</body>
+</html>

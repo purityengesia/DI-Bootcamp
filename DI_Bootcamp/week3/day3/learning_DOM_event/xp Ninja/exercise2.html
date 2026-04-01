@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Validation Exercise</title>
+    <style>
+        body { font-family: sans-serif; padding: 30px; line-height: 1.6; }
+        form { max-width: 400px; margin: auto; border: 1px solid #ccc; padding: 20px; border-radius: 8px; }
+        input[type="email"] { width: 100%; padding: 10px; margin: 10px 0; box-sizing: border-box; }
+        input[type="submit"] { background: #3498db; color: white; border: none; padding: 10px 15px; cursor: pointer; border-radius: 4px; }
+        .message { margin-top: 15px; font-weight: bold; }
+        .success { color: green; }
+        .error { color: red; }
+    </style>
+</head>
+<body>
+
+    <form id="emailForm">
+        <h2>Email Validation</h2>
+        <label for="userEmail">Enter your email:</label>
+        <input type="email" id="userEmail" required placeholder="example@domain.com">
+        <input type="submit" value="Validate Email">
+        <div id="msg" class="message"></div>
+    </form>
+
+    <script>
+        const form = document.getElementById('emailForm');
+        const msgDiv = document.getElementById('msg');
+
+        form.addEventListener('submit', function(event) {
+            event.preventDefault(); // Stop form from refreshing the page
+            
+            const emailValue = document.getElementById('userEmail').value;
+
+            // Choose which method to use:
+            const isValid = validateWithRegex(emailValue); 
+            // const isValid = validateManual(emailValue); 
+
+            if (isValid) {
+                msgDiv.textContent = "✔ That is a valid email address!";
+                msgDiv.className = "message success";
+            } else {
+                msgDiv.textContent = "✘ Invalid email. Please follow the format: name@domain.com";
+                msgDiv.className = "message error";
+            }
+        });
+
+        /**
+         * METHOD 1: Without Regex (Manual String Methods)
+         * Checks for @ and . positions relative to each other.
+         */
+        function validateManual(email) {
+            const atPos = email.indexOf("@");
+            const dotPos = email.lastIndexOf(".");
+
+            // 1. @ must exist and not be the first character (index > 0)
+            // 2. . must exist at least 2 characters after @
+            // 3. There must be at least 2 characters after the last . (extension)
+            if (atPos < 1 || dotPos < atPos + 2 || dotPos + 2 >= email.length) {
+                return false;
+            }
+            return true;
+        }
+
+        /**
+         * METHOD 2: With Regex
+         * Uses a pattern to match the structure in one step.
+         */
+        function validateWithRegex(email) {
+            // Pattern: letters/numbers + @ + letters/numbers + . + letters (2+ chars)
+            const pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return pattern.test(email);
+        }
+    </script>
+</body>
+</html>

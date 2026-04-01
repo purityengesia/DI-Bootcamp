@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercise 3: Transform the Sentence</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 40px;
+            text-align: center;
+        }
+        p {
+            font-size: 1.2rem;
+            cursor: default;
+            padding: 20px;
+            border: 1px dashed #ccc;
+            display: inline-block;
+        }
+        strong {
+            transition: color 0.3s ease;
+        }
+    </style>
+</head>
+<body>
+
+    <p id="targetSentence">
+        <strong>Hello</strong> I hope you are enjoying <strong>this</strong> class. 
+        At the <strong>end</strong> you <strong>will</strong> be great Developers! 
+        <strong>Enjoy</strong> the <strong>JavaScript</strong> lessons
+    </p>
+
+    <script>
+        // 1. Declare a global variable named allBoldItems
+        let allBoldItems;
+
+        /**
+         * 2. Collects all bold (strong) items inside the paragraph 
+         * and assigns them to the allBoldItems variable.
+         */
+        function getBoldItems() {
+            const paragraph = document.getElementById('targetSentence');
+            allBoldItems = paragraph.querySelectorAll('strong');
+        }
+
+        /**
+         * 3. Changes the color of all the bold text to blue.
+         */
+        function highlight() {
+            if (!allBoldItems) getBoldItems(); // Ensure items are collected
+            for (let item of allBoldItems) {
+                item.style.color = 'blue';
+            }
+        }
+
+        /**
+         * 4. Changes the color of all the bold text back to black.
+         */
+        function returnItemsToDefault() {
+            if (!allBoldItems) getBoldItems(); // Ensure items are collected
+            for (let item of allBoldItems) {
+                item.style.color = 'black';
+            }
+        }
+
+        // Initialize the global variable by calling the collection function
+        getBoldItems();
+
+        // 5. Add Event Listeners to the paragraph
+        const sentence = document.getElementById('targetSentence');
+
+        // Call highlight() on mouseover
+        sentence.addEventListener('mouseover', highlight);
+
+        // Call returnItemsToDefault() on mouseout
+        sentence.addEventListener('mouseout', returnItemsToDefault);
+    </script>
+
+</body>
+</html>

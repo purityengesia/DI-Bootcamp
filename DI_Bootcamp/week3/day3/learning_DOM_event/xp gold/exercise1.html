@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercise 3: Geolocation</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            text-align: center;
+            padding-top: 50px;
+        }
+        button {
+            padding: 15px 25px;
+            font-size: 1rem;
+            background-color: #8e44ad;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #7d3c98;
+        }
+        #output {
+            margin-top: 20px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Find My Coordinates</h1>
+    <p>Click the button below to get your current Latitude and Longitude.</p>
+    
+    <button id="getLocationBtn">Get Location</button>
+    
+    <div id="output"></div>
+
+    <script>
+        const btn = document.getElementById('getLocationBtn');
+        const output = document.getElementById('output');
+
+        btn.addEventListener('click', () => {
+            // 1. Check if Geolocation is supported by the browser
+            if (navigator.geolocation) {
+                output.innerHTML = "Locating...";
+                
+                // 2. Call getCurrentPosition (Success callback, Error callback)
+                navigator.geolocation.getCurrentPosition(showPosition, showError);
+            } else {
+                output.innerHTML = "Geolocation is not supported by this browser.";
+            }
+        });
+
+        // Success Callback
+        function showPosition(position) {
+            const lat = position.coords.latitude;
+            const lon = position.coords.longitude;
+            
+            output.innerHTML = `Latitude: ${lat} <br> Longitude: ${lon}`;
+        }
+
+        // Error Callback
+        function showError(error) {
+            switch(error.code) {
+                case error.PERMISSION_DENIED:
+                    output.innerHTML = "User denied the request for Geolocation.";
+                    break;
+                case error.POSITION_UNAVAILABLE:
+                    output.innerHTML = "Location information is unavailable.";
+                    break;
+                case error.TIMEOUT:
+                    output.innerHTML = "The request to get user location timed out.";
+                    break;
+                case error.UNKNOWN_ERROR:
+                    output.innerHTML = "An unknown error occurred.";
+                    break;
+            }
+        }
+    </script>
+
+</body>
+</html>

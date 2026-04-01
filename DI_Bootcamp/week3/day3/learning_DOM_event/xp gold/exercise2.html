@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercise 2: Delete Colors</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 40px;
+        }
+        form {
+            background-color: #f3f3f3;
+            padding: 20px;
+            border-radius: 8px;
+            display: inline-block;
+        }
+        select, input {
+            padding: 10px;
+            font-size: 1rem;
+        }
+    </style>
+</head>
+<body>
+
+    <form>
+        <select id="colorSelect">
+            <option>Red</option>
+            <option>Green</option>
+            <option>White</option>
+            <option>Black</option>
+        </select>
+        <input type="button" value="Select and Remove" id="removeBtn">
+    </form>
+
+    <script>
+        // 1. Select the button and the dropdown
+        const btn = document.getElementById('removeBtn');
+        const colorSelect = document.getElementById('colorSelect');
+
+        // 2. Add the click event listener
+        btn.addEventListener('click', removecolor);
+
+        /**
+         * Function to remove the currently selected color
+         */
+        function removecolor() {
+            // Get the index of the selected option
+            const selectedIndex = colorSelect.selectedIndex;
+
+            // Check if an option is actually selected (-1 means nothing is selected)
+            if (selectedIndex !== -1) {
+                // Use the .remove() method to delete the option at that index
+                colorSelect.remove(selectedIndex);
+            } else {
+                alert("No more colors to remove!");
+            }
+        }
+    </script>
+
+</body>
+</html>
