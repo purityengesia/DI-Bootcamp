@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Exercise 5: Users</title>
+</head>
+<body>
+    <div id="container">Users:</div>
+    <ul class="list">
+        <li>John</li>
+        <li>Pete</li>
+    </ul>
+    <ul class="list">
+        <li>David</li>
+        <li>Sarah</li>
+        <li>Dan</li>
+    </ul>
+
+    <script>
+        // 1. Retrieve and log div
+        const container = document.getElementById("container");
+        console.log(container);
+
+        // 2. Pete to Richard
+        const lists = document.querySelectorAll(".list");
+        lists[0].children[1].textContent = "Richard";
+
+        // 3. Delete 2nd li of 2nd ul (Sarah)
+        lists[1].children[1].remove();
+
+        // 4. Change 1st li of each to "Gemini" (Your Name)
+        lists.forEach(ul => {
+            ul.firstElementChild.textContent = "Gemini";
+            ul.classList.add("student_list");
+        });
+
+        // 5. Styling
+        lists[0].classList.add("university", "attendance");
+        container.style.backgroundColor = "lightblue";
+        container.style.padding = "10px";
+        
+        // Hide Dan (Last li of first ul is now David's previous list)
+        // Adjusting to target Dan specifically via text
+        document.querySelectorAll("li").forEach(li => {
+            if (li.textContent === "Dan") li.style.display = "none";
+            if (li.textContent === "Richard") li.style.border = "2px solid black";
+        });
+
+        document.body.style.fontSize = "20px";
+
+        if (container.style.backgroundColor === "lightblue") {
+            alert(`Hello ${lists[0].children[0].textContent} and ${lists[0].children[1].textContent}`);
+        }
+    </script>
+</body>
+</html>

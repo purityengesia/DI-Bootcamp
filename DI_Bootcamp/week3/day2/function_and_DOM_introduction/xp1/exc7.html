@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Exercise 7: My Book List</title>
+    <style>
+        .read { color: red; }
+        .book-card { margin-bottom: 20px; border-bottom: 1px solid #ccc; padding: 10px; }
+    </style>
+</head>
+<body>
+    <section class="listBooks"></section>
+
+    <script>
+        const allBooks = [
+            { title: "The Great Gatsby", author: "F. Scott Fitzgerald", image: "https://picsum.photos/100/150", alreadyRead: true },
+            { title: "1984", author: "George Orwell", image: "https://picsum.photos/101/150", alreadyRead: false }
+        ];
+
+        const section = document.querySelector(".listBooks");
+
+        allBooks.forEach(book => {
+            const div = document.createElement("div");
+            div.className = "book-card";
+            
+            const p = document.createElement("p");
+            p.textContent = `${book.title} written by ${book.author}`;
+            if (book.alreadyRead) p.classList.add("read");
+
+            const img = document.createElement("img");
+            img.src = book.image;
+            img.style.width = "100px";
+
+            div.appendChild(p);
+            div.appendChild(img);
+            section.appendChild(div);
+        });
+    </script>
+</body>
+</html>

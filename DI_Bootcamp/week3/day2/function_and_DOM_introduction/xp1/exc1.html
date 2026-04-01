@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Numbers Divisible by 23</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f2f5;
+        }
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            text-align: center;
+            max-width: 500px;
+        }
+        button {
+            background-color: #23d160;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            font-size: 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        button:hover {
+            background-color: #20bc56;
+        }
+        #result {
+            margin-top: 20px;
+            text-align: left;
+            word-wrap: break-word;
+            line-height: 1.6;
+            color: #363636;
+        }
+        .sum-box {
+            margin-top: 15px;
+            font-weight: bold;
+            color: #ff3860;
+            font-size: 1.2rem;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <h1>Divisible by 23</h1>
+        <p>Click the button to find all numbers between 0 and 500 divisible by 23 and calculate their sum.</p>
+        <button onclick="displayNumbersDivisible()">Run Calculation</button>
+        
+        <div id="result"></div>
+    </div>
+
+    <script>
+        function displayNumbersDivisible() {
+            const resultDiv = document.getElementById('result');
+            let sum = 0;
+            let numbersArray = [];
+
+            // Loop from 0 to 500
+            for (let i = 0; i <= 500; i++) {
+                // Modulo check: is the remainder 0?
+                if (i % 23 === 0) {
+                    numbersArray.push(i); // Add to our list
+                    sum += i; // Add to our total
+                }
+            }
+
+            // Display in the console as requested
+            console.log("Outcome:", numbersArray.join(" "));
+            console.log("Sum:", sum);
+
+            // Also display on the page for convenience
+            resultDiv.innerHTML = `
+                <strong>Numbers:</strong><br> ${numbersArray.join(", ")}
+                <div class="sum-box">Total Sum: ${sum}</div>
+            `;
+        }
+    </script>
+
+</body>
+</html>

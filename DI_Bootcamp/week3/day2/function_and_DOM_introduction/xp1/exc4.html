@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Exercise 4: Vacation Costs</title>
+</head>
+<body>
+    <h1>Vacation Planner</h1>
+    <button onclick="totalVacationCost()">Calculate My Vacation</button>
+
+    <script>
+        function hotelCost() {
+            let answer;
+            while (!answer || isNaN(answer)) {
+                answer = prompt("How many nights at the hotel?");
+            }
+            return Number(answer) * 140;
+        }
+
+        function planeRideCost() {
+            let dest = "";
+            while (dest === "" || !isNaN(dest)) {
+                dest = prompt("Destination (London, Paris, or Other)?").toLowerCase();
+            }
+            if (dest === "london") return 183;
+            if (dest === "paris") return 220;
+            return 300;
+        }
+
+        function rentalCarCost() {
+            let days;
+            while (!days || isNaN(days)) {
+                days = prompt("How many days for the car?");
+            }
+            let total = days * 40;
+            if (days > 10) total *= 0.95;
+            return total;
+        }
+
+        function totalVacationCost() {
+            const h = hotelCost();
+            const p = planeRideCost();
+            const c = rentalCarCost();
+            alert(`Hotel: $${h}, Plane: $${p}, Car: $${c}. Total: $${h+p+c}`);
+        }
+    </script>
+</body>
+</html>

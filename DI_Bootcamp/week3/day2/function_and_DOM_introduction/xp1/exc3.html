@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Exercise 3: Change Enough</title>
+</head>
+<body>
+    <h1>Wallet Calculation</h1>
+    <p>Open Console to see if you can afford the items.</p>
+
+    <script>
+        function changeEnough(itemPrice, amountOfChange) {
+            const values = [0.25, 0.10, 0.05, 0.01];
+            let totalSum = 0;
+
+            for (let i = 0; i < amountOfChange.length; i++) {
+                totalSum += amountOfChange[i] * values[i];
+            }
+            return totalSum >= itemPrice;
+        }
+
+        console.log("Can afford 4.25 with [25, 20, 5, 0]?", changeEnough(4.25, [25, 20, 5, 0]));
+        console.log("Can afford 14.11 with [2, 100, 0, 0]?", changeEnough(14.11, [2, 100, 0, 0]));
+    </script>
+</body>
+</html>
