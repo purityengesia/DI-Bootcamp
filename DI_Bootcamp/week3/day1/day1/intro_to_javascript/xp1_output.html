@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XP1 - Output</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        h1 {
+            color: #333;
+        }
+        h2 {
+            color: #666;
+            border-bottom: 2px solid #4CAF50;
+            padding-bottom: 10px;
+            margin-top: 30px;
+        }
+        .exercise {
+            margin-bottom: 30px;
+        }
+        .output {
+            background-color: #f9f9f9;
+            border-left: 4px solid #4CAF50;
+            padding: 15px;
+            margin: 10px 0;
+            font-family: monospace;
+            color: #333;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            line-height: 1.6;
+        }
+        input {
+            padding: 8px;
+            margin-right: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        button {
+            padding: 8px 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>XP1 - JavaScript Output</h1>
+
+        <div class="exercise">
+            <h2>Exercise 1: List of People</h2>
+            <div class="output" id="ex1-output"></div>
+        </div>
+
+        <div class="exercise">
+            <h2>Exercise 2: Favorite Colors</h2>
+            <div class="output" id="ex2-output"></div>
+        </div>
+
+        <div class="exercise">
+            <h2>Exercise 3: Repeat Question</h2>
+            <p>Enter a number (must be >= 10):</p>
+            <input type="number" id="numberInput" placeholder="Enter a number">
+            <button onclick="checkNumber()">Submit</button>
+            <div class="output" id="ex3-output"></div>
+        </div>
+
+        <div class="exercise">
+            <h2>Exercise 4: Building Management</h2>
+            <div class="output" id="ex4-output"></div>
+        </div>
+
+        <div class="exercise">
+            <h2>Exercise 5: Family</h2>
+            <div class="output" id="ex5-output"></div>
+        </div>
+
+        <div class="exercise">
+            <h2>Exercise 6: Rudolph</h2>
+            <div class="output" id="ex6-output"></div>
+        </div>
+
+        <div class="exercise">
+            <h2>Exercise 7: Secret Group</h2>
+            <div class="output" id="ex7-output"></div>
+        </div>
+    </div>
+
+    <script>
+        // Exercise 1: list of people
+        let ex1Output = "";
+        let people = ["Greg", "Mary", "Devon", "James"];
+
+        // 1. Remove "Greg"
+        people.shift();
+
+        // 2. Replace "James" with "Jason"
+        people[people.indexOf("James")] = "Jason";
+
+        // 3. Add your name to the end
+        people.push("Gemini");
+
+        // 4. Print Mary's index
+        ex1Output += "People list after modifications: [" + people.join(", ") + "]\n";
+        ex1Output += "Mary's index: " + people.indexOf("Mary") + "\n";
+        console.log(people.indexOf("Mary"));
+
+        // 5. Slice copy (Excluding "Mary" and "Gemini")
+        let peopleCopy = people.slice(1, 3);
+        ex1Output += "Slice copy (index 1-3): [" + peopleCopy.join(", ") + "]\n";
+        console.log(peopleCopy);
+
+        // 6. Index of "Foo"
+        ex1Output += "Index of 'Foo': ";
+        if (people.indexOf("Foo") !== -1) {
+            ex1Output += people.indexOf("Foo") + "\n";
+            console.log(people.indexOf("Foo"));
+        } else {
+            ex1Output += "-1 (not found)\n";
+            console.log(-1);
+        }
+
+        // 7. Variable 'last'
+        let last = people[people.length - 1];
+        ex1Output += "Last person: " + last + "\n\n";
+
+        // Loop: Iterate and log everyone
+        ex1Output += "All people:\n";
+        for (let person of people) {
+            ex1Output += "  " + person + "\n";
+            console.log(person);
+        }
+
+        // Loop: Iterate and break after "Devon"
+        ex1Output += "\nIterating until 'Devon':\n";
+        for (let person of people) {
+            ex1Output += "  " + person + "\n";
+            console.log(person);
+            if (person === "Devon") {
+                break;
+            }
+        }
+
+        document.getElementById("ex1-output").textContent = ex1Output;
+
+        // Exercise 2: favorite colors
+        let ex2Output = "";
+        let colors = ["blue", "red", "green", "purple", "black"];
+        let suffixes = ["st", "nd", "rd", "th", "th"];
+
+        for (let i = 0; i < colors.length; i++) {
+            let line = `My ${i + 1}${suffixes[i]} choice is ${colors[i]}`;
+            ex2Output += line + "\n";
+            console.log(line);
+        }
+        document.getElementById("ex2-output").textContent = ex2Output;
+
+        // Exercise 3: Repeat the question
+        let ex3Attempts = 0;
+        function checkNumber() {
+            let number = parseInt(document.getElementById("numberInput").value);
+            ex3Attempts++;
+
+            if (isNaN(number)) {
+                document.getElementById("ex3-output").textContent = "Please enter a valid number.";
+            } else if (number >= 10) {
+                document.getElementById("ex3-output").textContent = `Success! You entered ${number} (>= 10) after ${ex3Attempts} attempt(s).`;
+                console.log(`Number accepted: ${number}`);
+            } else {
+                document.getElementById("ex3-output").textContent = `The number ${number} is too small. Please enter a number >= 10.`;
+            }
+        }
+
+        // Exercise 4: building management
+        let ex4Output = "";
+        let building = {
+            numberOfFloors: 4,
+            numberOfAptByFloor: {
+                firstFloor: 3,
+                secondFloor: 4,
+                thirdFloor: 9,
+                fourthFloor: 2,
+            },
+            nameOfTenants: ["Sarah", "Dan", "David"],
+            numberOfRoomsAndRent: {
+                sarah: [3, 990],
+                dan: [4, 1000],
+                david: [1, 500],
+            },
+        };
+
+        // 1. Number of floors
+        ex4Output += "Number of floors: " + building.numberOfFloors + "\n";
+        console.log(building.numberOfFloors);
+
+        // 2. Apartments on floor 1 and 3
+        let apts = building.numberOfAptByFloor.firstFloor + building.numberOfAptByFloor.thirdFloor;
+        ex4Output += "Apartments on 1st and 3rd floors: " + apts + "\n";
+        console.log(apts);
+
+        // 3. Second tenant name and rooms
+        let tenant = building.nameOfTenants[1];
+        ex4Output += tenant + " has " + building.numberOfRoomsAndRent.dan[0] + " rooms.\n";
+        console.log(`${tenant} has ${building.numberOfRoomsAndRent.dan[0]} rooms.`);
+
+        // 4. Rent Check
+        let sarahRent = building.numberOfRoomsAndRent.sarah[1];
+        let davidRent = building.numberOfRoomsAndRent.david[1];
+        let danRent = building.numberOfRoomsAndRent.dan[1];
+
+        ex4Output += "\nBefore rent adjustment:\n";
+        ex4Output += "  Sarah's rent: $" + sarahRent + "\n";
+        ex4Output += "  David's rent: $" + davidRent + "\n";
+        ex4Output += "  Dan's rent: $" + danRent + "\n";
+
+        if (sarahRent + davidRent > danRent) {
+            building.numberOfRoomsAndRent.dan[1] = 1200;
+            ex4Output += "\nAfter rent adjustment:\n";
+            ex4Output += "  Dan's new rent: $1200\n";
+        }
+
+        document.getElementById("ex4-output").textContent = ex4Output;
+
+        // Exercise 5: family
+        let ex5Output = "";
+        let family = {
+            father: "John",
+            mother: "Jane",
+            son: "Jack"
+        };
+
+        // Log Keys
+        ex5Output += "Keys:\n";
+        for (let key in family) {
+            ex5Output += "  " + key + "\n";
+            console.log(key);
+        }
+
+        // Log Values
+        ex5Output += "\nValues:\n";
+        for (let key in family) {
+            ex5Output += "  " + family[key] + "\n";
+            console.log(family[key]);
+        }
+
+        document.getElementById("ex5-output").textContent = ex5Output;
+
+        // Exercise 6: rudolph
+        let ex6Output = "";
+        let details = {
+            my: "name",
+            is: "Rudolf",
+            the: "reindeer"
+        };
+
+        let sentence = "";
+        for (let key in details) {
+            sentence += `${key} ${details[key]} `;
+        }
+        ex6Output += sentence.trim();
+        console.log(sentence.trim());
+        document.getElementById("ex6-output").textContent = ex6Output;
+
+        // Exercise 7: secret group
+        let ex7Output = "";
+        let names = ["Jack", "Philip", "Sarah", "Amanda", "Bernard", "Kyle"];
+        let initials = [];
+
+        for (let name of names) {
+            initials.push(name[0]);
+        }
+
+        // Sort alphabetically and join into a string
+        let societyName = initials.sort().join("");
+        ex7Output += "Names: [" + names.join(", ") + "]\n";
+        ex7Output += "Initials: [" + initials.join(", ") + "]\n";
+        ex7Output += "Society Name (sorted): " + societyName + "\n";
+        console.log(societyName);
+        document.getElementById("ex7-output").textContent = ex7Output;
+    </script>
+</body>
+</html>

@@ -1,0 +1,52 @@
+function createCalendar(year, month) {
+  // JS months are 0-indexed (Jan=0, Sept=8), so we subtract 1
+  let mon = month - 1; 
+  let d = new Date(year, mon);
+
+  let table = document.createElement('table');
+  table.border = "1";
+
+  // Create Header Row
+  let headerRow = `<tr><th>MO</th><th>TU</th><th>WE</th><th>TH</th><th>FR</th><th>SA</th><th>SU</th></tr>`;
+  table.innerHTML = headerRow;
+
+  let tr = document.createElement('tr');
+
+  // Spaces for the first week (get Day of week: 0 for Sun, 1 for Mon... 6 for Sat)
+  // We adjust it so Mon is 0 and Sun is 6
+  let dayOfWeek = d.getDay();
+  if (dayOfWeek === 0) dayOfWeek = 7; // Make Sunday 7
+  
+  for (let i = 1; i < dayOfWeek; i++) {
+    tr.appendChild(document.createElement('td'));
+  }
+
+  // Fill the days
+  while (d.getMonth() === mon) {
+    let td = document.createElement('td');
+    td.textContent = d.getDate();
+    tr.appendChild(td);
+
+    // If it's Sunday (day 0), start a new row
+    if (d.getDay() === 0) {
+      table.appendChild(tr);
+      tr = document.createElement('tr');
+    }
+
+    d.setDate(d.getDate() + 1);
+  }
+
+  // Add the last row if it has content
+  if (tr.children.length > 0) {
+    // Fill remaining empty cells for the last week
+    while (tr.children.length < 7) {
+        tr.appendChild(document.createElement('td'));
+    }
+    table.appendChild(tr);
+  }
+
+  document.body.appendChild(table);
+}
+
+// Usage: September 2012
+createCalendar(2012, 9);

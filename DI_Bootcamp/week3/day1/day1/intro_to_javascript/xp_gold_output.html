@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XP Gold - Output</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        h1 {
+            color: #333;
+        }
+        h2 {
+            color: #666;
+            border-bottom: 2px solid #FFD700;
+            padding-bottom: 10px;
+            margin-top: 30px;
+        }
+        .exercise {
+            margin-bottom: 30px;
+        }
+        .output {
+            background-color: #f9f9f9;
+            border-left: 4px solid #FFD700;
+            padding: 15px;
+            margin: 10px 0;
+            font-family: monospace;
+            color: #333;
+            white-space: pre;
+            line-height: 1.6;
+        }
+        input {
+            padding: 8px;
+            margin-right: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        button {
+            padding: 8px 16px;
+            background-color: #FFD700;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        button:hover {
+            background-color: #FFC700;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>XP Gold - JavaScript Output</h1>
+
+        <div class="exercise">
+            <h2>Exercise 1: Divisible by Three</h2>
+            <div class="output" id="ex1-output"></div>
+        </div>
+
+        <div class="exercise">
+            <h2>Exercise 2: Attendance</h2>
+            <input type="text" id="studentName" placeholder="Enter your name">
+            <button onclick="checkAttendance()">Check</button>
+            <div class="output" id="ex2-output"></div>
+        </div>
+
+        <div class="exercise">
+            <h2>Exercise 3: Playing with Numbers</h2>
+            <div class="output" id="ex3-output"></div>
+        </div>
+    </div>
+
+    <script>
+        // Exercise 1: divisible by three
+        let ex1Output = "Numbers: [123, 8409, 100053, 333333333, 7]\n\n";
+        let numbers = [123, 8409, 100053, 333333333, 7];
+
+        for (let num of numbers) {
+            if (num % 3 === 0) {
+                ex1Output += `${num} is divisible by 3: true\n`;
+                console.log(true);
+            } else {
+                ex1Output += `${num} is divisible by 3: false\n`;
+                console.log(false);
+            }
+        }
+        document.getElementById("ex1-output").textContent = ex1Output;
+
+        // Exercise 2: attendance
+        let guestList = {
+          randy: "Germany",
+          karla: "France",
+          wendy: "Japan",
+          norman: "England",
+          sam: "Argentina"
+        };
+
+        function checkAttendance() {
+            let studentName = document.getElementById("studentName").value.toLowerCase();
+            let ex2Output = "";
+
+            if (studentName === "") {
+                ex2Output = "Please enter a name.";
+            } else if (studentName in guestList) {
+                let country = guestList[studentName];
+                ex2Output = `Hi! I'm ${studentName}, and I'm from ${country}.`;
+                console.log(ex2Output);
+            } else {
+                ex2Output = "Hi! I'm a guest.";
+                console.log(ex2Output);
+            }
+            document.getElementById("ex2-output").textContent = ex2Output;
+        }
+
+        // Exercise 3: playing with number
+        let ex3Output = "";
+        let age = [20, 5, 12, 43, 98, 55];
+
+        ex3Output += "Ages: [" + age.join(", ") + "]\n\n";
+
+        // 1. Sum of all numbers
+        let sum = 0;
+        for (let i = 0; i < age.length; i++) {
+            sum += age[i];
+        }
+        ex3Output += "The sum is: " + sum + "\n";
+        console.log("The sum is:", sum);
+
+        // 2. Highest age in the array
+        let highest = age[0];
+        for (let i = 1; i < age.length; i++) {
+            if (age[i] > highest) {
+                highest = age[i];
+            }
+        }
+        ex3Output += "The highest age is: " + highest + "\n";
+        console.log("The highest age is:", highest);
+
+        document.getElementById("ex3-output").textContent = ex3Output;
+    </script>
+</body>
+</html>

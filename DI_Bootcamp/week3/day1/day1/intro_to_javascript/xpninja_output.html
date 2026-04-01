@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XP Ninja - Output</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        h1 {
+            color: #333;
+        }
+        h2 {
+            color: #666;
+            border-bottom: 2px solid #FF6B6B;
+            padding-bottom: 10px;
+            margin-top: 30px;
+        }
+        .exercise {
+            margin-bottom: 30px;
+        }
+        .output {
+            background-color: #f9f9f9;
+            border-left: 4px solid #FF6B6B;
+            padding: 15px;
+            margin: 10px 0;
+            font-family: monospace;
+            color: #333;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            line-height: 1.8;
+        }
+        .person-card {
+            background-color: #f0f0f0;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 4px;
+            border-left: 4px solid #FF6B6B;
+        }
+        .person-card p {
+            margin: 5px 0;
+            font-family: monospace;
+        }
+        .person-card strong {
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>XP Ninja - JavaScript Output</h1>
+
+        <div class="exercise">
+            <h2>Exercise 1: Checking the BMI</h2>
+            <div id="ex1-persons"></div>
+            <div class="output" id="ex1-output"></div>
+        </div>
+
+        <div class="exercise">
+            <h2>Exercise 2: Grade Average</h2>
+            <div class="output" id="ex2-output"></div>
+        </div>
+    </div>
+
+    <script>
+        // Exercise 1: Checking the BMI
+        const person1 = {
+            fullName: "John Doe",
+            mass: 80, // kg
+            height: 1.8, // meters
+            // Method to calculate BMI
+            calcBMI: function() {
+                this.bmi = this.mass / (this.height * this.height);
+                return this.bmi;
+            }
+        };
+
+        const person2 = {
+            fullName: "Jane Smith",
+            mass: 75,
+            height: 1.7,
+            calcBMI: function() {
+                this.bmi = this.mass / (this.height * this.height);
+                return this.bmi;
+            }
+        };
+
+        // Function to compare BMI
+        function compareBMI(p1, p2) {
+            // We call the methods first to ensure the .bmi property exists
+            if (p1.calcBMI() > p2.calcBMI()) {
+                console.log(`${p1.fullName} has the largest BMI.`);
+                return `${p1.fullName} has the largest BMI.`;
+            } else if (p2.bmi > p1.bmi) {
+                console.log(`${p2.fullName} has the largest BMI.`);
+                return `${p2.fullName} has the largest BMI.`;
+            } else {
+                console.log("Both have the same BMI.");
+                return "Both have the same BMI.";
+            }
+        }
+
+        // Display person cards
+        let personsHTML = `
+            <div class="person-card">
+                <p><strong>${person1.fullName}</strong></p>
+                <p>Mass: ${person1.mass} kg</p>
+                <p>Height: ${person1.height} m</p>
+                <p>BMI: ${person1.calcBMI().toFixed(2)}</p>
+            </div>
+            <div class="person-card">
+                <p><strong>${person2.fullName}</strong></p>
+                <p>Mass: ${person2.mass} kg</p>
+                <p>Height: ${person2.height} m</p>
+                <p>BMI: ${person2.calcBMI().toFixed(2)}</p>
+            </div>
+        `;
+        document.getElementById("ex1-persons").innerHTML = personsHTML;
+
+        let comparisonResult = compareBMI(person1, person2);
+        document.getElementById("ex1-output").textContent = comparisonResult;
+
+        // Exercise 2: Grade average
+        let ex2Output = "";
+
+        // Function 1: Purely calculates the average numerical value
+        function calculateAverage(gradesList) {
+            let sum = 0;
+            for (let grade of gradesList) {
+                sum += grade;
+            }
+            return sum / gradesList.length;
+        }
+
+        // Function 2: Manages the output and logic
+        function findAvg(gradesList) {
+            // We "call" the first function here
+            const average = calculateAverage(gradesList);
+            
+            ex2Output += "Grades: [" + gradesList.join(", ") + "]\n";
+            ex2Output += "Average Grade: " + average.toFixed(2) + "\n\n";
+            console.log("Average Grade:", average);
+
+            if (average >= 65) {
+                ex2Output += "Congratulations! You passed.";
+                console.log("Congratulations! You passed.");
+            } else {
+                ex2Output += "You failed and must repeat the course.";
+                console.log("You failed and must repeat the course.");
+            }
+        }
+
+        // Testing the function
+        const myGrades = [70, 85, 60, 90, 45];
+        findAvg(myGrades);
+        document.getElementById("ex2-output").textContent = ex2Output;
+    </script>
+</body>
+</html>

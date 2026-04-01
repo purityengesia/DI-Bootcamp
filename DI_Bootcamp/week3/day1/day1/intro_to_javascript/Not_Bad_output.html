@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Not Bad - Output</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        h1 {
+            color: #333;
+        }
+        .output {
+            background-color: #f9f9f9;
+            border-left: 4px solid #4CAF50;
+            padding: 10px;
+            margin: 10px 0;
+            font-family: monospace;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Not Bad - JavaScript Output</h1>
+        <div class="output" id="output"></div>
+    </div>
+
+    <script>
+        // 1. Create a variable called sentence. The value of the variable should be a string that contains the words "not" and "bad".
+        let sentence = "The movie is not that bad, I actually enjoyed it.";
+
+        // 2. Create a variable called wordNot where it's value is the first appearance (ie. the position) of the substring "not" (from the sentence variable).
+        let wordNot = sentence.indexOf("not");
+
+        // 3. Create a variable called wordBad where it's value is the first appearance (ie. the position) of the substring "bad" (from the sentence variable).
+        let wordBad = sentence.indexOf("bad");
+
+        // 4. If the word "bad" comes after the word "not", you should replace the whole "not…bad" substring with "good", then console.log the result.
+        let result = "";
+        if (wordBad > wordNot) {
+            let newSentence = sentence.slice(0, wordNot) + "good" + sentence.slice(wordBad + 3);
+            result = newSentence;
+            console.log(newSentence);
+        }
+        // 5. If the word "bad" does not come after the word "not", console.log the original sentence.
+        else {
+            result = sentence;
+            console.log(sentence);
+        }
+
+        // Display the result
+        document.getElementById("output").textContent = result;
+    </script>
+</body>
+</html>
