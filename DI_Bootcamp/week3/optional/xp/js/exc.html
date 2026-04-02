@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logic Puzzles & Algorithms</title>
+    <style>
+        :root {
+            --bg-color: #ffffff;
+            --primary-blue: #1a73e8;
+            --text-main: #202124;
+            --border-gray: #dadce0;
+            --code-bg: #f8f9fa;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            margin: 0;
+            display: flex;
+            height: 100vh;
+        }
+
+        /* Sidebar Navigation */
+        nav {
+            width: 250px;
+            background-color: var(--code-bg);
+            border-right: 1px solid var(--border-gray);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        nav h2 { font-size: 1.2rem; color: var(--primary-blue); }
+
+        nav button {
+            text-align: left;
+            padding: 12px;
+            background: none;
+            border: 1px solid transparent;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: 0.2s;
+        }
+
+        nav button:hover { background-color: #e8f0fe; color: var(--primary-blue); }
+        nav button.active { background-color: #e8f0fe; border-color: var(--primary-blue); color: var(--primary-blue); }
+
+        /* Main Content Area */
+        main {
+            flex: 1;
+            padding: 40px;
+            overflow-y: auto;
+        }
+
+        .puzzle-section { display: none; max-width: 800px; }
+        .puzzle-section.active { display: block; }
+
+        .result-box {
+            background-color: var(--code-bg);
+            border: 1px solid var(--border-gray);
+            padding: 20px;
+            border-radius: 8px;
+            font-family: 'Courier New', Courier, monospace;
+            white-space: pre-wrap;
+            margin-top: 20px;
+            color: #d93025;
+        }
+
+        input {
+            padding: 10px;
+            width: 100%;
+            border: 1px solid var(--border-gray);
+            border-radius: 4px;
+            margin-bottom: 10px;
+            font-size: 1rem;
+        }
+
+        .btn-action {
+            background-color: var(--primary-blue);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<nav>
+    <h2>Algorithm Suite</h2>
+    <button class="nav-btn active" onclick="showSection('cleaner')">1. Clean the Room</button>
+    <button class="nav-btn" onclick="showSection('target')">2. Target Sum</button>
+    <button class="nav-btn" onclick="showSection('converter')">3. Color Converter</button>
+</nav>
+
+<main>
+    <div id="cleaner" class="puzzle-section active">
+        <h1>Clean the Room</h1>
+        <p>Organizes an array into ordered sub-arrays of identical values.</p>
+        <p>Input: <code>[1, 2, 4, 591, 392, 391, 2, 5, 10, 2, 1, 1, 1, 20, 20]</code></p>
+        <button class="btn-action" onclick="runCleaner()">Run Logic</button>
+        <div id="cleaner-res" class="result-box">Click run to see output...</div>
+    </div>
+
+    <div id="target" class="puzzle-section">
+        <h1>Target Sum Finder</h1>
+        <p>Finds two numbers in an array that add up to the target.</p>
+        <input type="text" id="target-arr" placeholder="Array (e.g. 1,2,3)">
+        <input type="number" id="target-num" placeholder="Target Number (e.g. 4)">
+        <button class="btn-action" onclick="runTarget()">Find Pair</button>
+        <div id="target-res" class="result-box">Output will appear here...</div>
+    </div>
+
+    <div id="converter" class="puzzle-section">
+        <h1>Color Auto-Converter</h1>
+        <p>Detects format automatically and converts HEX to RGB or vice-versa.</p>
+        <input type="text" id="color-input" placeholder="Enter #ffffff or rgb(255, 255, 255)">
+        <button class="btn-action" onclick="runConverter()">Convert Color</button>
+        <div id="converter-res" class="result-box">Result...</div>
+    </div>
+</main>
+
+<script>
+    // Navigation logic
+    function showSection(id) {
+        document.querySelectorAll('.puzzle-section').forEach(s => s.classList.remove('active'));
+        document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+        document.getElementById(id).classList.add('active');
+        event.currentTarget.classList.add('active');
+    }
+
+    // Question 1 Logic
+    function runCleaner() {
+        const input = [1, 2, 4, 591, 392, 391, 2, 5, 10, 2, 1, 1, 1, 20, 20];
+        const sorted = [...input].sort((a, b) => a - b);
+        const organized = [];
+        let i = 0;
+        while (i < sorted.length) {
+            let current = sorted[i];
+            let group = sorted.filter(item => item === current);
+            organized.push(group.length > 1 ? group : current);
+            i += group.length;
+        }
+        document.getElementById('cleaner-res').innerText = JSON.stringify(organized);
+    }
+
+    // Question 2 Logic
+    function runTarget() {
+        const strArr = document.getElementById('target-arr').value.split(',').map(Number);
+        const target = parseInt(document.getElementById('target-num').value);
+        const seen = new Map();
+        let result = "No pair found";
+
+        for (let num of strArr) {
+            let comp = target - num;
+            if (seen.has(comp)) {
+                result = `[${comp}, ${num}]`;
+                break;
+            }
+            seen.set(num, true);
+        }
+        document.getElementById('target-res').innerText = result;
+    }
+
+    // Question 3 Logic
+    function runConverter() {
+        const val = document.getElementById('color-input').value.trim();
+        let result = "Invalid Format";
+
+        // HEX to RGB
+        if (val.startsWith('#') || val.length === 6) {
+            let hex = val.replace('#', '');
+            const r = parseInt(hex.substring(0, 2), 16);
+            const g = parseInt(hex.substring(2, 4), 16);
+            const b = parseInt(hex.substring(4, 6), 16);
+            result = `rgb(${r}, ${g}, ${b})`;
+        } 
+        // RGB to HEX
+        else if (val.startsWith('rgb')) {
+            const rgb = val.match(/\d+/g).map(Number);
+            const hex = rgb.map(x => {
+                const h = x.toString(16);
+                return h.length === 1 ? '0' + h : h;
+            }).join('');
+            result = `#${hex}`;
+        }
+
+        document.getElementById('converter-res').innerText = result;
+    }
+</script>
+
+</body>
+</html>
