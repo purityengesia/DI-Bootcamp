@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JS Interactive Learning Suite</title>
+    <style>
+        :root {
+            --primary: #1976D2;
+            --success: #4CAF50;
+            --danger: #F44336;
+            --dark: #333;
+            --light: #f5f5f5;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #ffffff;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Navigation Tabs */
+        nav {
+            width: 100%;
+            background: var(--dark);
+            display: flex;
+            justify-content: center;
+            padding: 10px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        nav button {
+            background: none;
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 14px;
+            text-transform: uppercase;
+            transition: 0.3s;
+            border-bottom: 2px solid transparent;
+        }
+
+        nav button.active {
+            border-bottom: 2px solid var(--primary);
+            color: var(--primary);
+            font-weight: bold;
+        }
+
+        .tab-content {
+            display: none;
+            width: 90%;
+            max-width: 800px;
+            padding: 40px 20px;
+            animation: fadeIn 0.4s;
+        }
+
+        .tab-content.active { display: block; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- Global Component Styles --- */
+        button { border-radius: 4px; cursor: pointer; transition: 0.2s; }
+        .card { background: white; padding: 25px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); border: 1px solid #eee; }
+
+        /* --- Todo List Specifics --- */
+        #todo-list { list-style: none; padding: 0; }
+        #todo-list li { 
+            background: var(--light); margin: 8px 0; padding: 12px; 
+            display: flex; justify-content: space-between; border-radius: 4px; 
+        }
+        .completed { text-decoration: line-through; opacity: 0.6; }
+
+        /* --- Color Game Specifics --- */
+        #color-display { width: 150px; height: 150px; margin: 20px auto; border: 4px solid #eee; border-radius: 8px; }
+        .color-option { margin: 5px; padding: 10px; min-width: 100px; }
+
+        /* --- Calculator Specifics --- */
+        .calc-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; max-width: 300px; margin: auto; background: #444; padding: 15px; border-radius: 8px; }
+        #display { grid-column: span 4; background: #222; color: #0f0; text-align: right; padding: 15px; font-size: 1.5rem; margin-bottom: 10px; }
+
+        /* --- Whack-a-Mole Specifics --- */
+        #game-board { display: grid; grid-template-columns: repeat(3, 100px); gap: 10px; margin: 20px auto; }
+        .hole { width: 100px; height: 100px; background: #654321; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 40px; }
+    </style>
+</head>
+<body>
+
+<nav>
+    <button class="tab-link active" onclick="openTab(event, 'todo')">Todo List</button>
+    <button class="tab-link" onclick="openTab(event, 'color')">Color Game</button>
+    <button class="tab-link" onclick="openTab(event, 'calc')">Calculator</button>
+    <button class="tab-link" onclick="openTab(event, 'mole')">Whack-a-Mole</button>
+</nav>
+
+<div id="todo" class="tab-content active">
+    <div class="card">
+        <h1>Todo List</h1>
+        <div style="display:flex; gap:10px;">
+            <input type="text" id="new-todo" placeholder="New Task..." style="flex:1; padding:10px;">
+            <button onclick="addTodo()" style="background:var(--success); color:white; border:none; padding:10px 20px;">Add</button>
+            <button id="remove-all" onclick="removeAllTodos()" style="background:var(--danger); color:white; border:none;">Clear All</button>
+        </div>
+        <div style="margin-top:15px; text-align:center;">
+            <button onclick="setFilter('all')">All</button>
+            <button onclick="setFilter('active')">Active</button>
+            <button onclick="setFilter('completed')">Done</button>
+        </div>
+        <ul id="todo-list"></ul>
+    </div>
+</div>
+
+<div id="color" class="tab-content">
+    <div class="card" style="text-align:center;">
+        <h1>Color Guessing</h1>
+        <div id="difficulty-btns">
+            <button onclick="setDifficulty('easy')">Easy</button>
+            <button onclick="setDifficulty('medium')">Medium</button>
+            <button onclick="setDifficulty('hard')">Hard</button>
+        </div>
+        <div id="color-display"></div>
+        <div id="options"></div>
+        <p id="result-msg"></p>
+        <p id="timer-msg" style="display:none;">Next in <span id="seconds">5</span>s</p>
+    </div>
+</div>
+
+<div id="calc" class="tab-content">
+    <div class="card">
+        <h1 style="text-align:center;">Smart Calc</h1>
+        <div class="calc-grid">
+            <div id="display">0</div>
+            <button style="background:orange" onclick="memAdd()">M+</button>
+            <button style="background:orange" onclick="memClear()">MC</button>
+            <button style="background:var(--danger); color:white" onclick="clearCalc()">AC</button>
+            <button onclick="press('/')">/</button>
+            
+            <button onclick="press('7')">7</button>
+            <button onclick="press('8')">8</button>
+            <button onclick="press('9')">9</button>
+            <button onclick="press('*')">×</button>
+            
+            <button onclick="press('4')">4</button>
+            <button onclick="press('5')">5</button>
+            <button onclick="press('6')">6</button>
+            <button onclick="press('-')">-</button>
+            
+            <button onclick="press('1')">1</button>
+            <button onclick="press('2')">2</button>
+            <button onclick="press('3')">3</button>
+            <button onclick="press('+')">+</button>
+            
+            <button style="grid-column: span 2" onclick="press('0')">0</button>
+            <button onclick="press('.')">.</button>
+            <button style="background:var(--primary); color:white" onclick="calculate()">=</button>
+        </div>
+    </div>
+</div>
+
+<div id="mole" class="tab-content">
+    <div class="card" style="text-align:center;">
+        <h1>Whack-a-Mole</h1>
+        <p>Score: <b id="score">0</b> | Time: <b id="time">30</b>s</p>
+        <div id="game-board"></div>
+        <button id="start-btn" onclick="startGame()" style="padding:10px 30px; background:var(--primary); color:white; border:none;">Start Game</button>
+        <div id="high-score-box" style="margin-top:20px;">
+            <h3>Top Scores</h3>
+            <ul id="high-score-list" style="list-style:none; padding:0;"></ul>
+        </div>
+    </div>
+</div>
+
+<script>
+    /* --- TAB LOGIC --- */
+    function openTab(evt, tabName) {
+        document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.tab-link').forEach(l => l.classList.remove('active'));
+        document.getElementById(tabName).classList.add('active');
+        evt.currentTarget.classList.add('active');
+        if(tabName === 'color') initColorGame();
+    }
+
+    /* --- EXERCISE 1: TODO --- */
+    let currentFilter = 'all';
+    function addTodo() {
+        const val = document.getElementById('new-todo').value;
+        if(!val) return;
+        const li = document.createElement('li');
+        li.innerHTML = `<span onclick="this.parentElement.classList.toggle('completed'); applyFilter()">${val}</span>
+                        <button onclick="this.parentElement.remove(); updateBtn()">X</button>`;
+        document.getElementById('todo-list').appendChild(li);
+        document.getElementById('new-todo').value = '';
+        updateBtn();
+    }
+    function removeAllTodos() { document.getElementById('todo-list').innerHTML = ''; updateBtn(); }
+    function updateBtn() { document.getElementById('remove-all').disabled = (document.getElementById('todo-list').children.length === 0); }
+    function setFilter(f) { currentFilter = f; applyFilter(); }
+    function applyFilter() {
+        const items = document.querySelectorAll('#todo-list li');
+        items.forEach(item => {
+            const isDone = item.classList.contains('completed');
+            if(currentFilter === 'all') item.style.display = 'flex';
+            else if(currentFilter === 'active') item.style.display = isDone ? 'none' : 'flex';
+            else item.style.display = isDone ? 'flex' : 'none';
+        });
+    }
+
+    /* --- EXERCISE 2: COLOR --- */
+    let correctColor;
+    let diff = 'easy';
+    function initColorGame() {
+        const display = document.getElementById('color-display');
+        const opts = document.getElementById('options');
+        correctColor = `rgb(${rand()},${rand()},${rand()})`;
+        display.style.backgroundColor = correctColor;
+        opts.innerHTML = '';
+        let count = diff === 'easy' ? 3 : 6;
+        let colors = [correctColor];
+        for(let i=1; i<count; i++) colors.push(`rgb(${rand()},${rand()},${rand()})`);
+        colors.sort(() => Math.random() - 0.5);
+        colors.forEach(c => {
+            const btn = document.createElement('button');
+            btn.className = 'color-option';
+            btn.style.backgroundColor = diff === 'easy' ? c : '#eee';
+            btn.innerText = diff === 'easy' ? '' : c;
+            btn.onclick = () => {
+                if(c === correctColor) {
+                    document.getElementById('result-msg').innerText = "Correct! 🎉";
+                    setTimeout(initColorGame, 2000);
+                } else document.getElementById('result-msg').innerText = "Try Again ❌";
+            };
+            opts.appendChild(btn);
+        });
+    }
+    function rand() { return Math.floor(Math.random()*256); }
+    function setDifficulty(d) { diff = d; initColorGame(); }
+
+    /* --- EXERCISE 3: CALC --- */
+    let memory = 0;
+    function press(v) { 
+        const d = document.getElementById('display');
+        if(d.innerText === '0') d.innerText = v; else d.innerText += v;
+    }
+    function clearCalc() { document.getElementById('display').innerText = '0'; }
+    function calculate() { 
+        try { document.getElementById('display').innerText = eval(document.getElementById('display').innerText); } 
+        catch { document.getElementById('display').innerText = "Error"; }
+    }
+    function memAdd() { memory += parseFloat(document.getElementById('display').innerText) || 0; }
+    function memClear() { memory = 0; alert("Memory Cleared"); }
+
+    /* --- EXERCISE 4: MOLE --- */
+    let score = 0, time = 30, moleTimer, gameInterval;
+    function startGame() {
+        score = 0; time = 30;
+        document.getElementById('score').innerText = score;
+        document.getElementById('start-btn').disabled = true;
+        const board = document.getElementById('game-board');
+        board.innerHTML = '';
+        for(let i=0; i<9; i++) {
+            const h = document.createElement('div');
+            h.className = 'hole';
+            h.onclick = (e) => { if(e.target.innerText === '🐹') { score++; document.getElementById('score').innerText = score; e.target.innerText = ''; } };
+            board.appendChild(h);
+        }
+        gameInterval = setInterval(() => {
+            time--; document.getElementById('time').innerText = time;
+            if(time <= 0) { clearInterval(gameInterval); clearInterval(moleTimer); alert("GameOver! Score: " + score); document.getElementById('start-btn').disabled = false; }
+        }, 1000);
+        moleTimer = setInterval(() => {
+            const holes = document.querySelectorAll('.hole');
+            holes.forEach(h => h.innerText = '');
+            holes[Math.floor(Math.random()*9)].innerText = '🐹';
+        }, 800);
+    }
+</script>
+
+</body>
+</html>

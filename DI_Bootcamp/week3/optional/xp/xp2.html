@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>JS Animations & Timers</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; line-height: 1.6; }
+        h1 { color: #333; border-bottom: 2px solid #eee; }
+        section { margin-bottom: 50px; padding: 20px; border: 1px solid #ddd; border-radius: 8px; }
+
+        /* Exercise 1 Styles */
+        #container-timer p {
+            background: yellow;
+            color: red;
+            padding: 5px;
+            margin: 5px 0;
+            border: 1px solid orange;
+        }
+
+        /* Exercise 2 Styles */
+        #container-move {
+            width: 400px;
+            height: 400px;
+            position: relative;
+            background: yellow;
+            border: 2px solid #333;
+        }
+        #animate {
+            width: 50px;
+            height: 50px;
+            position: absolute;
+            background-color: red;
+        }
+
+        /* Exercise 3 Styles */
+        #target {
+            width: 200px;
+            height: 200px;
+            position: relative;
+            background: yellow;
+            border: 2px dashed #666;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        #box {
+            width: 50px;
+            height: 50px;
+            background-color: red;
+            cursor: grab;
+        }
+        #box:active { cursor: grabbing; }
+    </style>
+</head>
+<body>
+
+    <section>
+        <h1>Exercise 1: Timer</h1>
+        <div id="container-timer"></div>
+        <button id="clear">Clear Interval</button>
+        <button onclick="location.reload()">Reset All</button>
+    </section>
+
+    <section>
+        <h1>Exercise 2: Move the Box</h1>
+        <p><button onclick="myMove()">Click Me to Animate</button></p>
+        <div id="container-move">
+            <div id="animate"></div>
+        </div>
+    </section>
+
+    <section>
+        <h1>Exercise 3: Drag & Drop</h1>
+        <p>Drag the red box into the yellow target:</p>
+        <div id="target" ondrop="drop(event)" ondragover="allowDrop(event)">
+            </div>
+        <br>
+        <div id="box" draggable="true" ondragstart="drag(event)"></div>
+    </section>
+
+    <script>
+        /* --- EXERCISE 1: TIMER LOGIC --- */
+        
+        // Part I: Alert after 2 seconds
+        setTimeout(() => {
+            console.log("Part I: Alert triggered");
+            // alert("Hello World"); // Commented out so it doesn't interrupt your testing
+        }, 2000);
+
+        // Part II & III: Interval Logic
+        const timerContainer = document.getElementById("container-timer");
+        const clearBtn = document.getElementById("clear");
+
+        function addParagraph() {
+            const p = document.createElement("p");
+            p.textContent = "Hello World";
+            timerContainer.appendChild(p);
+
+            // Check if there are 5 paragraphs
+            if (timerContainer.querySelectorAll("p").length >= 5) {
+                clearInterval(timerInterval);
+                console.log("Limit reached: Interval cleared automatically.");
+            }
+        }
+
+        let timerInterval = setInterval(addParagraph, 2000);
+
+        clearBtn.addEventListener("click", () => {
+            clearInterval(timerInterval);
+            console.log("Manual: Interval cleared by button.");
+        });
+
+
+        /* --- EXERCISE 2: MOVE THE BOX LOGIC --- */
+        
+        function myMove() {
+            const elem = document.getElementById("animate");
+            let pos = 0;
+            // Limit is Container Width (400) - Box Width (50) = 350
+            const id = setInterval(frame, 1);
+
+            function frame() {
+                if (pos >= 350) {
+                    clearInterval(id);
+                } else {
+                    pos++;
+                    elem.style.left = pos + "px";
+                }
+            }
+        }
+
+
+        /* --- EXERCISE 3: DRAG & DROP LOGIC --- */
+
+        function allowDrop(event) {
+            // Necessary to allow a drop
+            event.preventDefault();
+        }
+
+        function drag(event) {
+            // Set the ID of the dragged element
+            event.dataTransfer.setData("text", event.target.id);
+        }
+
+        function drop(event) {
+            event.preventDefault();
+            const data = event.dataTransfer.getData("text");
+            const draggedElement = document.getElementById(data);
+            
+            // Append the box to the target
+            event.target.appendChild(draggedElement);
+            
+            // Optional styling change on drop
+            event.target.style.border = "2px solid green";
+        }
+    </script>
+</body>
+</html>
