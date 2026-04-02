@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript Scope & Functions Exercises</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        .navbar {
+            background-color: #333;
+            color: white;
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .user-info img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 2px solid #fff;
+        }
+        .exercise-container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        h2 { color: #2c3e50; border-bottom: 2px solid #eee; padding-bottom: 10px; }
+        code { background: #eee; padding: 2px 5px; border-radius: 4px; }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="logo">JuiceBar App</div>
+        <div id="nav-user-container"></div>
+    </nav>
+
+    <div class="exercise-container">
+        <h2>Exercise Outputs</h2>
+        <div id="fortune-output"></div>
+        <div id="juice-output"></div>
+        <p><em>Check the browser console (F12) for Exercise 1, 2, 3, and 4 results.</em></p>
+    </div>
+
+    <script>
+        // --- EXERCISE 1: Scope Predictions ---
+        /*
+            #1: Prediction: 3. Because 'a' is reassigned inside the 'if' block.
+            #1.2: Prediction: Error. 'const' variables cannot be reassigned.
+
+            #2: Prediction: 0 then 5. funcThree alerts global 'a', funcTwo changes it to 5.
+            #2.2: Prediction: Error. Cannot reassign a global 'const'.
+
+            #3: Prediction: "hello". window.a creates a global variable.
+
+            #4: Prediction: "test". The local 'let a' inside the function shadows the global one.
+            #4.2: Prediction: "test". 'const' also respects block/function scope shadowing.
+
+            #5: Prediction: 5 then 2. The 'a' inside the 'if' block is local to that block.
+            #5.2: Prediction: 5 then 2. 'const' is also block-scoped.
+        */
+
+        // --- EXERCISE 2: Ternary Operator ---
+        const winBattle = () => true;
+        let experiencePoints = winBattle() ? 10 : 1;
+        console.log("Exercise 2 - Experience Points:", experiencePoints);
+
+        // --- EXERCISE 3: Is it a string? ---
+        const isString = (val) => typeof val === 'string';
+        console.log("Exercise 3 - 'hello' is string?:", isString('hello')); 
+        console.log("Exercise 3 - [1,2] is string?:", isString([1, 2, 4, 0]));
+
+        // --- EXERCISE 4: Find the sum ---
+        const sum = (a, b) => a + b;
+        console.log("Exercise 4 - Sum of 5 and 10:", sum(5, 10));
+
+        // --- EXERCISE 5: Kg and Grams ---
+        // 1. Function Declaration
+        function convertKgToGrams(kg) { return kg * 1000; }
+        // 2. Function Expression
+        const kgToGramsExp = function(kg) { return kg * 1000; };
+        // Difference: Declarations are hoisted, Expressions are not.
+        // 3. Arrow Function
+        const kgToGramsArrow = kg => kg * 1000;
+        
+        console.log("Exercise 5 - 2kg in grams:", kgToGramsArrow(2));
+
+        // --- EXERCISE 6: Fortune Teller ---
+        (function(numChildren, partnerName, location, jobTitle) {
+            const container = document.getElementById('fortune-output');
+            const sentence = `You will be a ${jobTitle} in ${location}, and married to ${partnerName} with ${numChildren} kids.`;
+            const p = document.createElement('p');
+            p.textContent = `Exercise 6: ${sentence}`;
+            container.appendChild(p);
+        })(2, "Alex", "Paris", "Full Stack Developer");
+
+        // --- EXERCISE 7: Welcome ---
+        (function(userName) {
+            const navContainer = document.getElementById('nav-user-container');
+            const userDiv = document.createElement('div');
+            userDiv.classList.add('user-info');
+            
+            userDiv.innerHTML = `
+                <span>Welcome, <strong>${userName}</strong></span>
+                <img src="https://i.pravatar.cc/150?u=john" alt="Profile">
+            `;
+            navContainer.appendChild(userDiv);
+        })("John");
+
+        // --- EXERCISE 8: Juice Bar ---
+        function makeJuice(size) {
+            const ingredients = [];
+
+            function addIngredients(ing1, ing2, ing3) {
+                ingredients.push(ing1, ing2, ing3);
+            }
+
+            function displayJuice() {
+                const container = document.getElementById('juice-output');
+                const sentence = `The client wants a ${size} juice, containing: ${ingredients.join(", ")}.`;
+                container.innerHTML = `<p>Exercise 8: ${sentence}</p>`;
+            }
+
+            // Part II: Add 6 ingredients by calling twice
+            addIngredients("Apple", "Strawberry", "Ginger");
+            addIngredients("Carrot", "Lemon", "Mint");
+            displayJuice();
+        }
+
+        makeJuice("Medium");
+
+    </script>
+</body>
+</html>

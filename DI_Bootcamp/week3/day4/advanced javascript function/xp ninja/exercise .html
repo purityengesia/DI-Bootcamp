@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Merge Words Exercise</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #ffffff;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .card {
+            background: #ffffff;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border: 1px solid #f0f0f0;
+            max-width: 500px;
+            width: 100%;
+        }
+        h1 {
+            color: #1a73e8;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #f1f3f4;
+            padding-bottom: 10px;
+        }
+        .output-label {
+            font-size: 0.8rem;
+            color: #70757a;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 20px;
+        }
+        .result {
+            background-color: #f8f9fa;
+            border: 1px left solid #1a73e8;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 4px;
+            font-family: 'Courier New', Courier, monospace;
+            font-weight: bold;
+            color: #d93025;
+        }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h1>Merge Words Result</h1>
+    
+    <div class="output-label">Single Call: mergeWords('Hello')()</div>
+    <div id="res1" class="result"></div>
+
+    <div class="output-label">Multi Call: mergeWords('There')('is')('no')('spoon.')()</div>
+    <div id="res2" class="result"></div>
+</div>
+
+<script>
+    // The Curried Function
+    // It takes a string, returns a function. 
+    // If nextString is undefined (empty parens), it returns the final result.
+    // Otherwise, it calls itself recursively with the new combined string.
+    const mergeWords = (string) => (nextString) => 
+        nextString === undefined ? string : mergeWords(`${string} ${nextString}`);
+
+    // Applying to DOM
+    document.getElementById('res1').innerText = mergeWords('Hello')();
+    document.getElementById('res2').innerText = mergeWords('There')('is')('no')('spoon.')();
+
+    // Log to console as well
+    console.log("Result 1:", mergeWords('Hello')());
+    console.log("Result 2:", mergeWords('There')('is')('no')('spoon.')());
+</script>
+
+</body>
+</html>

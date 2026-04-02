@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JS Advanced Concepts - Exercises</title>
+    <style>
+        /* Changed background to white */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            padding: 20px;
+            background-color: #ffffff; 
+            color: #333;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 12px;
+            /* Added a slightly more defined shadow since the bg is white */
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            border: 1px solid #eaeaea;
+        }
+        h1 { color: #1a73e8; text-align: center; border-bottom: 2px solid #f1f3f4; padding-bottom: 10px; }
+        h2 { color: #5f6368; margin-top: 25px; font-size: 1.1rem; border-left: 4px solid #1a73e8; padding-left: 10px; }
+        
+        .result-box {
+            background-color: #fcfcfc;
+            border: 1px solid #eeeeee;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Courier New', Courier, monospace;
+            margin: 10px 0;
+            color: #d93025;
+            font-weight: bold;
+        }
+        .explanation {
+            font-size: 0.85rem;
+            color: #70757a;
+            margin-bottom: 20px;
+        }
+        .landscape-output {
+            letter-spacing: 2px;
+            font-size: 1.4rem;
+            color: #2e7d32;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>JavaScript Logic Suite</h1>
+    <p style="text-align: center; color: #70757a;">Results rendered from internal logic</p>
+
+    <section>
+        <h2>Exercise 1: Landscape (Nested Arrows)</h2>
+        <div id="landscape-res" class="result-box landscape-output"></div>
+        <p class="explanation">Visual representation of string concatenation within nested loops.</p>
+    </section>
+
+    <section>
+        <h2>Exercise 2: Closure</h2>
+        <div id="closure-res" class="result-box"></div>
+        <p class="explanation">The inner function retains access to the scope of the outer function.</p>
+    </section>
+
+    <section>
+        <h2>Exercises 3 & 4: Currying</h2>
+        <div id="curry-res-1" class="result-box"></div>
+        <div id="curry-res-2" class="result-box"></div>
+        <p class="explanation">Breaking functions into unary (one-argument) steps.</p>
+    </section>
+
+    <section>
+        <h2>Exercise 5: Composition</h2>
+        <div id="compose-res" class="result-box"></div>
+        <p class="explanation">Executing <code>add1(add5(10))</code> from right to left.</p>
+    </section>
+</div>
+
+<script>
+    // 1. Landscape Logic
+    const landscape = () => {
+        let result = "";
+        const flat = (x) => { for (let i = 0; i < x; i++) result += "_"; };
+        const mountain = (x) => {
+            result += "/";
+            for (let i = 0; i < x; i++) result += "'";
+            result += "\\";
+        };
+        flat(4); mountain(4); flat(4);
+        return result;
+    };
+    document.getElementById('landscape-res').innerText = landscape();
+
+    // 2. Closure Logic
+    const addTo = x => y => x + y;
+    document.getElementById('closure-res').innerText = `addTo(10)(3) = ${addTo(10)(3)}`;
+
+    // 3 & 4. Currying Logic
+    const curriedSum = (a) => (b) => a + b;
+    document.getElementById('curry-res-1').innerText = `curriedSum(30)(1) = ${curriedSum(30)(1)}`;
+    const add5 = curriedSum(5);
+    document.getElementById('curry-res-2').innerText = `add5(12) = ${add5(12)}`;
+
+    // 5. Composition Logic
+    const compose = (f, g) => (a) => f(g(a));
+    const add1 = (num) => num + 1;
+    const plus5 = (num) => num + 5;
+    document.getElementById('compose-res').innerText = `Result: ${compose(add1, plus5)(10)}`;
+</script>
+</body>
+</html>

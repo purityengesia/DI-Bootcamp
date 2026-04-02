@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JS Mastery: From Logic to Pixel Art</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --accent: #3498db;
+            --bg: #f4f7f6;
+        }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: var(--bg); margin: 0; padding: 20px; }
+        
+        /* Coloring Squares Styles */
+        .game-container { display: flex; height: 500px; border: 5px solid var(--primary); background: white; margin-bottom: 50px; }
+        #sidebar { width: 120px; background: var(--primary); padding: 15px; display: flex; flex-direction: column; gap: 10px; }
+        #palette { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+        .color-btn { width: 100%; aspect-ratio: 1; cursor: pointer; border: 2px solid transparent; border-radius: 4px; }
+        .color-btn.active { border-color: white; transform: scale(1.1); }
+        #canvas { flex-grow: 1; display: grid; grid-template-columns: repeat(50, 1fr); grid-template-rows: repeat(30, 1fr); overflow: hidden; cursor: crosshair; }
+        .cell { border: 0.1px solid #eee; background: white; }
+        #clear-btn { padding: 10px; cursor: pointer; background: #e74c3c; color: white; border: none; font-weight: bold; }
+
+        /* Exercise Styles */
+        .exercise-card { background: white; padding: 20px; border-radius: 8px; margin-bottom: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+        h2 { color: var(--primary); border-bottom: 2px solid var(--accent); display: inline-block; }
+        .code-block { background: #272822; color: #f8f8f2; padding: 15px; border-radius: 5px; overflow-x: auto; font-family: monospace; }
+        .output-label { font-weight: bold; color: #27ae60; }
+    </style>
+</head>
+<body>
+
+    <h1>Project: Coloring Squares</h1>
+    <div class="game-container">
+        <div id="sidebar">
+            <button id="clear-btn">CLEAR</button>
+            <div id="palette"></div>
+        </div>
+        <div id="canvas"></div>
+    </div>
+
+    <h1>Logic Exercises</h1>
+
+    <div class="exercise-card">
+        <h2>Exercise 1: Nested Arrow Functions</h2>
+        <p>Landscape Generator Result:</p>
+        <div class="code-block" id="landscape-output"></div>
+    </div>
+
+    <div class="exercise-card">
+        <h2>Functional Concepts</h2>
+        <p><span class="output-label">Closure (addToTen(3)):</span> <span id="closure-res"></span></p>
+        <p><span class="output-label">Currying (curriedSum(30)(1)):</span> <span id="curry-res"></span></p>
+        <p><span class="output-label">Composition (add1(add5(10))):</span> <span id="compose-res"></span></p>
+        <p><span class="output-label">MergeWords:</span> <span id="merge-res"></span></p>
+    </div>
+
+    <script>
+        /* --- PROJECT: COLORING SQUARES LOGIC --- */
+        const canvas = document.getElementById('canvas');
+        const palette = document.getElementById('palette');
+        const colors = ['#FF0000', '#FF7F00', '#FFFF00', '#00FF00', '#0000FF', '#4B0082', '#8B00FF', '#000000', '#FFFFFF', '#FFC0CB'];
+        let selectedColor = '#000000';
+        let isDrawing = false;
+
+        // Create Palette
+        colors.forEach(color => {
+            const btn = document.createElement('div');
+            btn.className = 'color-btn';
+            btn.style.backgroundColor = color;
+            btn.onclick = () => {
+                selectedColor = color;
+                document.querySelectorAll('.color-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+            };
+            palette.appendChild(btn);
+        });
+
+        // Create Grid Cells (50x30 = 1500)
+        for (let i = 0; i < 1500; i++) {
+            const cell = document.createElement('div');
+            cell.className = 'cell';
+            cell.onmousedown = () => { isDrawing = true; cell.style.backgroundColor = selectedColor; };
+            cell.onmouseover = () => { if(isDrawing) cell.style.backgroundColor = selectedColor; };
+            canvas.appendChild(cell);
+        }
+        window.onmouseup = () => isDrawing = false;
+        document.getElementById('clear-btn').onclick = () => document.querySelectorAll('.cell').forEach(c => c.style.backgroundColor = 'white');
+
+        /* --- EXERCISE 1: LANDSCAPE --- */
+        const landscape = () => {
+            let result = "";
+            const flat = x => { for(let i=0; i<x; i++) result += "_"; };
+            const mountain = x => {
+                result += "/";
+                for(let i=0; i<x; i++) result += "'";
+                result += "\\";
+            };
+            flat(4); mountain(4); flat(4);
+            return result;
+        };
+        document.getElementById('landscape-output').textContent = landscape();
+
+        /* --- EXERCISE 2-5: FUNCTIONAL LOGIC --- */
+        
+        // Closure
+        const addTo = x => y => x + y;
+        document.getElementById('closure-res').textContent = addTo(10)(3);
+
+        // Currying
+        const curriedSum = a => b => a + b;
+        document.getElementById('curry-res').textContent = curriedSum(30)(1);
+
+        // Composition
+        const compose = (f, g) => a => f(g(a));
+        const add1 = n => n + 1;
+        const add5 = n => n + 5;
+        document.getElementById('compose-res').textContent = compose(add1, add5)(10);
+
+        // MergeWords
+        const mergeWords = str => next => next === undefined ? str : mergeWords(`${str} ${next}`);
+        document.getElementById('merge-res').textContent = mergeWords('There')('is')('no')('spoon.')();
+
+    </script>
+</body>
+</html>

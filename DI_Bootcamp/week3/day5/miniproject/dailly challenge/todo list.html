@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced To-Do List</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body { font-family: Arial, sans-serif; padding: 50px; background: #f4f4f9; }
+        .container { max-width: 400px; margin: auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        form { display: flex; gap: 10px; margin-bottom: 20px; }
+        input[type="text"] { flex-grow: 1; padding: 8px; border: 1px solid #ddd; border-radius: 4px; }
+        button#submit { padding: 8px 15px; background: #27ae60; color: white; border: none; border-radius: 4px; cursor: pointer; }
+        
+        .listTasks { display: flex; flex-direction: column; gap: 10px; }
+        .task-item { display: flex; align-items: center; padding: 10px; border-bottom: 1px solid #eee; gap: 10px; }
+        .task-item i { color: #e74c3c; cursor: pointer; }
+        .task-item label { flex-grow: 1; cursor: pointer; transition: 0.3s; }
+        
+        /* Done styles (Bonus I) */
+        .is-done { text-decoration: line-through; color: red; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>My Tasks</h2>
+        <form id="task-form">
+            <input type="text" id="task-input" placeholder="What needs to be done?">
+            <button type="submit" id="submit">Add</button>
+        </form>
+        <div class="listTasks"></div>
+    </div>
+
+    <script>
+        const tasks = [];
+        const form = document.getElementById('task-form');
+        const listDiv = document.querySelector('.listTasks');
+        const input = document.getElementById('task-input');
+
+        form.addEventListener('submit', addTask);
+
+        function addTask(e) {
+            e.preventDefault(); // Prevent page refresh
+            
+            const text = input.value.trim();
+            if (text === "") return; // Check if empty
+
+            // Bonus I: Object structure
+            const newTask = {
+                task_id: tasks.length,
+                text: text,
+                done: false
+            };
+
+            tasks.push(newTask);
+            input.value = ""; // Clear input
+            renderTasks();
+        }
+
+        function renderTasks() {
+            listDiv.innerHTML = ""; // Clear current DOM list
+
+            tasks.forEach((task) => {
+                const taskDiv = document.createElement('div');
+                taskDiv.classList.add('task-item');
+                taskDiv.setAttribute('data-task-id', task.task_id);
+
+                // 1. Delete Button (Bonus II)
+                const deleteBtn = document.createElement('i');
+                deleteBtn.classList.add('fa-solid', 'fa-xmark');
+                deleteBtn.onclick = () => deleteTask(task.task_id);
+
+                // 2. Checkbox (Bonus I)
+                const checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
+                checkbox.checked = task.done;
+                checkbox.onchange = () => doneTask(task.task_id);
+
+                // 3. Label
+                const label = document.createElement('label');
+                label.textContent = task.text;
+                if (task.done) label.classList.add('is-done');
+
+                taskDiv.append(deleteBtn, checkbox, label);
+                listDiv.appendChild(taskDiv);
+            });
+        }
+
+        // Bonus I: Toggle Done status
+        function doneTask(id) {
+            const taskIndex = tasks.findIndex(t => t.task_id === id);
+            tasks[taskIndex].done = !tasks[taskIndex].done;
+            renderTasks();
+        }
+
+        // Bonus II: Delete task
+        function deleteTask(id) {
+            const taskIndex = tasks.findIndex(t => t.task_id === id);
+            if (taskIndex > -1) {
+                tasks.splice(taskIndex, 1);
+            }
+            renderTasks();
+        }
+    </script>
+</body>
+</html>
