@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML Form & JSON Exercises</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; line-height: 1.6; }
+        section { border-bottom: 2px solid #eee; padding-bottom: 20px; margin-bottom: 20px; }
+        h2 { color: #333; }
+        form { background: #f9f9f9; padding: 15px; border-radius: 8px; border: 1px solid #ddd; max-width: 400px; }
+        label { display: block; margin: 10px 0 5px; font-weight: bold; }
+        input[type="text"], textarea { width: 100%; padding: 8px; box-sizing: border-box; }
+        input[type="submit"] { margin-top: 15px; background: #007bff; color: white; border: none; padding: 10px 15px; cursor: pointer; border-radius: 4px; }
+        input[type="submit"]:hover { background: #0056b3; }
+        pre { background: #272822; color: #f8f8f2; padding: 15px; border-radius: 5px; overflow-x: auto; }
+    </style>
+</head>
+<body>
+
+    <h1>JavaScript and HTML Form Exercises</h1>
+
+    <section>
+        <h2>Exercise 1: HTML Form (GET)</h2>
+        <form action="" method="GET">
+            <label for="name_get">Name:</label>
+            <input type="text" id="name_get" name="username" required>
+            
+            <label for="msg_get">Message:</label>
+            <textarea id="msg_get" name="message" rows="4"></textarea>
+            
+            <input type="submit" value="Send (GET)">
+        </form>
+        <p><strong>Where will the data appear?</strong> In the <strong>URL bar</strong> as query parameters (e.g., <code>?username=name&message=text</code>).</p>
+    </section>
+
+    <section>
+        <h2>Exercise 2: HTML Form #2 (POST)</h2>
+        <form action="" method="POST">
+            <label for="name_post">Name:</label>
+            <input type="text" id="name_post" name="username" required>
+            
+            <label for="msg_post">Message:</label>
+            <textarea id="msg_post" name="message" rows="4"></textarea>
+            
+            <input type="submit" value="Send (POST)">
+        </form>
+        <p><strong>Where will the data appear?</strong> In the <strong>HTTP Request Body</strong>. To see it, open the browser's <strong>Network Tab</strong>, click the request name, and look at the "Payload" or "Form Data" section.</p>
+    </section>
+
+    <section>
+        <h2>Exercise 3: JSON Mario</h2>
+        <p>Check the browser console and the <code>pre</code> block below for the results.</p>
+        <h3>Pretty Printed JSON:</h3>
+        <pre id="json-output"></pre>
+    </section>
+
+    <script>
+        // Exercise 3 Data
+        const marioGame = {
+            detail: "An amazing game!",
+            characters: {
+                mario: {
+                    description: "Small and jumpy. Likes princesses.",
+                    height: 10,
+                    weight: 3,
+                    speed: 12,
+                },
+                bowser: {
+                    description: "Big and green, Hates princesses.",
+                    height: 16,
+                    weight: 6,
+                    speed: 4,
+                },
+                princessPeach: {
+                    description: "Beautiful princess.",
+                    height: 12,
+                    weight: 2,
+                    speed: 2,
+                }
+            },
+        };
+
+        // 1. Convert JS object to JSON string
+        const marioJSON = JSON.stringify(marioGame);
+        
+        // What happens to nested objects? 
+        // They are automatically converted into JSON-formatted nested objects within the string.
+
+        // 2. Convert and Pretty Print (indent of 2 spaces)
+        const marioPretty = JSON.stringify(marioGame, null, 2);
+        document.getElementById('json-output').textContent = marioPretty;
+
+        // 3. Breakpoint for Inspector
+        console.log("Check the JSON object in the debugger below:");
+        console.log(marioGame);
+        
+        // Use 'debugger;' to force a breakpoint in the inspector
+        debugger; 
+    </script>
+</body>
+</html>

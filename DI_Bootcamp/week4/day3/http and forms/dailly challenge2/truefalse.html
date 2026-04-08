@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JS Truthy Checker</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; padding: 40px; background-color: #f8f9fa; }
+        .card { 
+            max-width: 500px; 
+            margin: auto; 
+            background: white; 
+            padding: 30px; 
+            border-radius: 12px; 
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1); 
+        }
+        h2 { color: #2c3e50; margin-top: 0; }
+        .result-box { 
+            margin-top: 20px; 
+            padding: 15px; 
+            border-radius: 8px; 
+            font-weight: bold; 
+            text-align: center;
+            font-size: 1.2rem;
+        }
+        .is-true { background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .is-false { background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        code { background: #eee; padding: 2px 5px; border-radius: 4px; }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <h2>allTruthy() Function</h2>
+        <p>This function checks if every argument passed is "truthy".</p>
+        
+        <p>Current test values:<br>
+        <code>(5, 4, 3, 2, 1, 0)</code></p>
+
+        <div id="display" class="result-box"></div>
+    </div>
+
+    <script>
+        /**
+         * Function that returns true if all parameters are truthy.
+         * Uses the rest parameter (...) to handle any number of arguments.
+         */
+        function allTruthy(...args) {
+            // .every() returns true only if every element passes the test
+            return args.every(item => Boolean(item));
+        }
+
+        // Selecting the display element
+        const display = document.getElementById('display');
+
+        // Running a test case (from your example)
+        const result = allTruthy(5, 4, 3, 2, 1, 0);
+
+        // Displaying the result in the DOM
+        if (result) {
+            display.textContent = "Result: TRUE";
+            display.classList.add('is-true');
+        } else {
+            display.textContent = "Result: FALSE";
+            display.classList.add('is-false');
+        }
+
+        // Additional console logs for your examples
+        console.log("allTruthy(true, true, true) ->", allTruthy(true, true, true));
+        console.log("allTruthy(true, false, true) ->", allTruthy(true, false, true));
+        console.log("allTruthy(5, 4, 3, 2, 1, 0) ->", allTruthy(5, 4, 3, 2, 1, 0));
+    </script>
+</body>
+</html>

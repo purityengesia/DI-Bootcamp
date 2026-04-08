@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Exercise 1: Display Data</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; }
+        section { 
+            border: 2px solid #2ecc71; 
+            padding: 20px; 
+            border-radius: 8px; 
+            background-color: #fafffa; 
+            max-width: 400px;
+        }
+        span { font-weight: bold; color: #27ae60; }
+    </style>
+</head>
+<body>
+    <h2>Submission Results</h2>
+
+    <section id="results-section">
+        <p>Waiting for data...</p>
+    </section>
+
+    <script>
+        // 1. Get the parameters from the URL
+        const queryParams = new URLSearchParams(window.location.search);
+        
+        // 2. Extract specific values by their 'name' attribute from the form
+        const firstName = queryParams.get('name');
+        const lastName = queryParams.get('lastname');
+
+        // 3. Use the DOM to select the section and update its content
+        const displaySection = document.getElementById('results-section');
+
+        if (firstName && lastName) {
+            displaySection.innerHTML = `
+                <p>Hello, <span>${firstName} ${lastName}</span>!</p>
+                <p>Your data was successfully retrieved from the URL using the DOM.</p>
+            `;
+        } else {
+            displaySection.innerHTML = `<p>No data found in the URL.</p>`;
+        }
+    </script>
+</body>
+</html>
