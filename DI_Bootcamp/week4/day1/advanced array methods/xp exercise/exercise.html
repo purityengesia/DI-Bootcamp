@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript Array Methods - Exercises</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; padding: 20px; background-color: #f4f7f6; color: #333; }
+        .container { max-width: 900px; margin: auto; }
+        section { background: white; padding: 20px; margin-bottom: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); border-left: 5px solid #3498db; }
+        h2 { margin-top: 0; color: #2c3e50; border-bottom: 1px solid #eee; padding-bottom: 10px; }
+        .output { background: #2d3436; color: #fab1a0; padding: 15px; border-radius: 5px; font-family: 'Courier New', Courier, monospace; overflow-x: auto; margin-top: 10px; }
+        .label { font-weight: bold; color: #2980b9; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>JavaScript Array Methods Exercises</h1>
+    <p>Check the <strong>Browser Console (F12)</strong> for detailed outputs and analysis.</p>
+
+    <section>
+        <h2>Exercise 1: Colors</h2>
+        <div id="ex1-output" class="output"></div>
+        <script>
+            const colors = ["Blue", "Green", "Red", "Orange", "Violet", "Indigo", "Yellow"];
+            const ex1Div = document.getElementById('ex1-output');
+
+            colors.forEach((color, index) => {
+                ex1Div.innerHTML += `${index + 1}# choice is ${color}<br>`;
+            });
+
+            const isVioletPresent = colors.some(c => c === "Violet");
+            console.log("Exercise 1 - Is Violet here?", isVioletPresent ? "Yeah" : "No...");
+        </script>
+    </section>
+
+    <section>
+        <h2>Exercise 2: Colors #2 (Ordinals)</h2>
+        <div id="ex2-output" class="output"></div>
+        <script>
+            const colors2 = ["Blue", "Green", "Red", "Orange", "Violet", "Indigo", "Yellow"];
+            const ordinal = ["th", "st", "nd", "rd"];
+            const ex2Div = document.getElementById('ex2-output');
+
+            colors2.forEach((color, index) => {
+                let num = index + 1;
+                // Ternary to pick "st", "nd", "rd" or "th"
+                let suffix = (num === 1) ? ordinal[1] : (num === 2) ? ordinal[2] : (num === 3) ? ordinal[3] : ordinal[0];
+                ex2Div.innerHTML += `${num}${suffix} choice is ${color}<br>`;
+            });
+        </script>
+    </section>
+
+    <section>
+        <h2>Exercise 3: Analyzing (Check Console)</h2>
+        <p>This exercise results are printed in the browser console for technical analysis.</p>
+        <script>
+            console.log("--- Exercise 3 Analysis ---");
+            const fruits = ["apple", "orange"];
+            const vegetables = ["carrot", "potato"];
+            const result = ['bread', ...vegetables, 'chicken', ...fruits];
+            console.log("Result 1 (Spread):", result);
+
+            const country = "USA";
+            console.log("Result 2 (String Spread):", [...country]);
+
+            let newArray = [...[,,]];
+            console.log("Bonus Result (Empty Spread):", newArray);
+        </script>
+    </section>
+
+    <section>
+        <h2>Exercise 4: Employees</h2>
+        <div id="ex4-output" class="output"></div>
+        <script>
+            const users = [
+                { firstName: 'Bradley', lastName: 'Bouley', role: 'Full Stack Resident' },
+                { firstName: 'Chloe', lastName: 'Alnaji', role: 'Full Stack Resident' },
+                { firstName: 'Jonathan', lastName: 'Baughn', role: 'Enterprise Instructor' },
+                { firstName: 'Michael', lastName: 'Herman', role: 'Lead Instructor' },
+                { firstName: 'Robert', lastName: 'Hajek', role: 'Full Stack Resident' },
+                { firstName: 'Wes', lastName: 'Reid', role: 'Instructor'},
+                { firstName: 'Zach', lastName: 'Klabunde', role: 'Instructor'}
+            ];
+
+            const welcomeStudents = users.map(user => `Hello ${user.firstName}`);
+            const residents = users.filter(user => user.role === 'Full Stack Resident');
+            const residentLastNames = users
+                .filter(user => user.role === 'Full Stack Resident')
+                .map(user => user.lastName);
+
+            document.getElementById('ex4-output').innerHTML = 
+                `<span class="label">Welcomes:</span> ${JSON.stringify(welcomeStudents)}<br><br>` +
+                `<span class="label">Resident LastNames:</span> ${JSON.stringify(residentLastNames)}`;
+        </script>
+    </section>
+
+    <section>
+        <h2>Exercise 5: Star Wars (Reduce)</h2>
+        <div id="ex5-output" class="output"></div>
+        <script>
+            const epic = ['a', 'long', 'time', 'ago', 'in a', 'galaxy', 'far far', 'away'];
+            const combinedString = epic.reduce((acc, current) => acc + " " + current);
+            document.getElementById('ex5-output').textContent = combinedString;
+        </script>
+    </section>
+
+    <section>
+        <h2>Exercise 6: Employees #2 (Filter & forEach)</h2>
+        <div id="ex6-output" class="output"></div>
+        <script>
+            const students = [
+                {name: "Ray", course: "Computer Science", isPassed: true}, 
+                {name: "Liam", course: "Computer Science", isPassed: false}, 
+                {name: "Jenner", course: "Information Technology", isPassed: true}, 
+                {name: "Marco", course: "Robotics", isPassed: true}, 
+                {name: "Kimberly", course: "Artificial Intelligence", isPassed: false}, 
+                {name: "Jamie", course: "Big Data", isPassed: false}
+            ];
+
+            const ex6Div = document.getElementById('ex6-output');
+            
+            // Filter and Congratulate
+            students
+                .filter(student => student.isPassed)
+                .forEach(student => {
+                    ex6Div.innerHTML += `Good job ${student.name}, you passed the course in ${student.course}<br>`;
+                });
+        </script>
+    </section>
+</div>
+
+</body>
+</html>
