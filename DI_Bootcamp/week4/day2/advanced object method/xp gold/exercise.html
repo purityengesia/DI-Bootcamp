@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript Exercises</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            line-height: 1.6;
+            padding: 20px;
+            background-color: #f4f4f9;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h2 { color: #333; border-bottom: 2px solid #eee; padding-bottom: 10px; }
+        pre {
+            background: #272822;
+            color: #f8f8f2;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        .result {
+            background: #e7f3ff;
+            border-left: 5px solid #2196F3;
+            padding: 10px;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>JavaScript Exercises Output</h1>
+    <p><em>Check the Browser Console (F12) for more detailed logs.</em></p>
+
+    <section>
+        <h2>Exercise 1: Full Name</h2>
+        <div id="ex1" class="result"></div>
+    </section>
+
+    <section>
+        <h2>Exercise 2: Keys and Values</h2>
+        <div id="ex2" class="result"></div>
+    </section>
+
+    <section>
+        <h2>Exercise 3: Counter Class</h2>
+        <p>Analysis: Since objects are passed by reference, <code>counterTwo</code> points to the same memory as <code>counterOne</code>.</p>
+        <div id="ex3" class="result"></div>
+    </section>
+</div>
+
+<script>
+    // --- Exercise 1 ---
+    function printFullName({ first, last }) {
+        return `Your full name is ${first} ${last}`;
+    }
+    const fullNameResult = printFullName({ first: 'Elie', last: 'Schoppik' });
+    document.getElementById('ex1').textContent = fullNameResult;
+
+    // --- Exercise 2 ---
+    function keysAndValues(obj) {
+        const keys = Object.keys(obj).sort();
+        const values = keys.map(key => obj[key]);
+        return [keys, values];
+    }
+    const kvData = keysAndValues({ a: "Apple", b: "Microsoft", c: "Google" });
+    document.getElementById('ex2').textContent = JSON.stringify(kvData);
+
+    // --- Exercise 3 ---
+    class Counter {
+        constructor() {
+            this.count = 0;
+        }
+        increment() {
+            this.count++;
+        }
+    }
+    const counterOne = new Counter();
+    counterOne.increment();
+    counterOne.increment();
+
+    const counterTwo = counterOne; // Reference assignment
+    counterTwo.increment();
+
+    document.getElementById('ex3').textContent = `Final Count of counterOne: ${counterOne.count}`;
+    
+    // Logging to console for verification
+    console.log("Ex 1:", fullNameResult);
+    console.log("Ex 2:", kvData);
+    console.log("Ex 3 - counterOne.count:", counterOne.count);
+</script>
+
+</body>
+</html>

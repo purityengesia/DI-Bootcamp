@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript Exercises - Part 2</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            padding: 20px;
+            background-color: #f0f2f5;
+            color: #333;
+        }
+        .container {
+            max-width: 900px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+        h1 { color: #1a73e8; text-align: center; }
+        h2 { 
+            color: #202124; 
+            border-bottom: 2px solid #e8eaed; 
+            padding-bottom: 8px;
+            margin-top: 30px;
+        }
+        .result-box {
+            background: #f8f9fa;
+            border: 1px solid #dadce0;
+            border-left: 6px solid #1a73e8;
+            padding: 15px;
+            margin-top: 10px;
+            font-family: 'Courier New', Courier, monospace;
+            white-space: pre-wrap;
+        }
+        .error-box {
+            border-left-color: #d93025;
+            background: #fce8e6;
+        }
+        .note {
+            font-size: 0.9em;
+            color: #5f6368;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>JS Exercise Dashboard</h1>
+    
+    <section>
+        <h2>1. Full Name (Destructuring)</h2>
+        <div id="ex1" class="result-box"></div>
+    </section>
+
+    <section>
+        <h2>2. Sorted Keys & Values</h2>
+        <div id="ex2" class="result-box"></div>
+    </section>
+
+    <section>
+        <h2>3. Counter Class (Reference Check)</h2>
+        <div id="ex3" class="result-box"></div>
+    </section>
+
+    <section>
+        <h2>4. Bird Class (The 'super()' Error)</h2>
+        <p class="note">Check the browser console to see the ReferenceError from the original code!</p>
+        <div id="ex4" class="result-box error-box"></div>
+        <h3>Fixed Implementation:</h3>
+        <div id="ex4-fixed" class="result-box"></div>
+    </section>
+</div>
+
+<script>
+    // --- EX 1: Destructuring ---
+    function printFullName({ first, last }) {
+        return `Your full name is ${first} ${last}`;
+    }
+    document.getElementById('ex1').textContent = printFullName({ first: 'Elie', last: 'Schoppik' });
+
+    // --- EX 2: Keys and Values ---
+    function keysAndValues(obj) {
+        const keys = Object.keys(obj).sort();
+        const values = keys.map(k => obj[k]);
+        return [keys, values];
+    }
+    const kv = keysAndValues({ b: "Microsoft", a: "Apple", c: "Google" });
+    document.getElementById('ex2').textContent = JSON.stringify(kv, null, 2);
+
+    // --- EX 3: Counter (Reference) ---
+    class Counter {
+        constructor() { this.count = 0; }
+        increment() { this.count++; }
+    }
+    const c1 = new Counter();
+    c1.increment();
+    c1.increment();
+    const c2 = c1; 
+    c2.increment();
+    document.getElementById('ex3').textContent = `counterOne.count is: ${c1.count} (Expected 3)`;
+
+    // --- EX 4: Bird Class Analysis ---
+    // We use a try/catch here because the original code crashes the script!
+    try {
+        class Bird { constructor() { console.log("Bird init"); } }
+        class Flamingo extends Bird {
+            constructor() {
+                console.log("I'm pink. 🌸"); // Error happens here!
+                super();
+            }
+        }
+        new Flamingo();
+    } catch (err) {
+        document.getElementById('ex4').textContent = `CAUGHT ERROR: ${err.message}`;
+    }
+
+    // Fixed version for the UI
+    class BirdFixed {
+        constructor() { return "I'm a bird. 🦢"; }
+    }
+    class FlamingoFixed extends BirdFixed {
+        constructor() {
+            super();
+            this.msg = "I'm pink. 🌸";
+        }
+    }
+    const pet = new FlamingoFixed();
+    document.getElementById('ex4-fixed').textContent = `1. I'm a bird. 🦢\n2. ${pet.msg}`;
+
+</script>
+
+</body>
+</html>

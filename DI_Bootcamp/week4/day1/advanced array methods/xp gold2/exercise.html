@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Master JavaScript Exercises</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            padding: 20px;
+            background-color: #f4f7f6;
+            color: #333;
+        }
+        .container {
+            max-width: 900px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        h1 { color: #2c3e50; border-bottom: 3px solid #3498db; padding-bottom: 10px; text-align: center; }
+        h2 { color: #2980b9; margin-top: 25px; font-size: 1.2rem; border-left: 5px solid #3498db; padding-left: 10px; }
+        .output-box {
+            background: #2d3436;
+            color: #00cec9;
+            padding: 15px;
+            border-radius: 6px;
+            font-family: 'Consolas', monospace;
+            white-space: pre-wrap;
+            margin: 10px 0;
+            font-size: 0.95rem;
+        }
+        code { background: #ffeaa7; padding: 2px 4px; border-radius: 3px; color: #d63031; }
+        section { margin-bottom: 20px; border-bottom: 1px solid #eee; padding-bottom: 20px; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>JS Exercise Master File</h1>
+
+        <section>
+            <h2>Exercise 1: Sum of All Elements</h2>
+            <p>Calculates the total sum of <code>[10, 20, 30, 40]</code> using <code>.reduce()</code>.</p>
+            <div id="ex1-output" class="output-box"></div>
+        </section>
+
+        <section>
+            <h2>Exercise 2: Remove Duplicates</h2>
+            <p>Cleaning <code>[1, 2, 2, 3, 4, 4, 5]</code> using <code>new Set()</code>.</p>
+            <div id="ex2-output" class="output-box"></div>
+        </section>
+
+        <section>
+            <h2>Exercise 3: Remove Falsy Values</h2>
+            <p>Filtering <code>NaN, 0, "", false, undefined, null</code> from the sample array.</p>
+            <div id="ex3-output" class="output-box"></div>
+        </section>
+
+        <section>
+            <h2>Exercise 4: Repeat String Function</h2>
+            <p>Custom <code>repeat('Ha!', 3)</code> function result:</p>
+            <div id="ex4-output" class="output-box"></div>
+        </section>
+
+        <section>
+            <h2>Exercise 5: Turtle & Rabbit Alignment</h2>
+            <p>Visual alignment using <code>.padStart()</code>:</p>
+            <div id="ex5-output" class="output-box"></div>
+        </section>
+
+    </div>
+
+    <script>
+        // --- EXERCISE 1: Sum ---
+        const numbersForSum = [10, 20, 30, 40];
+        const totalSum = numbersForSum.reduce((acc, val) => acc + val, 0);
+        document.getElementById('ex1-output').innerText = `Total Sum: ${totalSum}`;
+
+        // --- EXERCISE 2: Duplicates ---
+        const duplicateArray = [1, 2, 2, 3, 4, 4, 5];
+        const uniqueArray = [...new Set(duplicateArray)];
+        document.getElementById('ex2-output').innerText = `Unique Array: [${uniqueArray.join(', ')}]`;
+
+        // --- EXERCISE 3: Falsy ---
+        const sampleArray = [NaN, 0, 15, false, -22, '', undefined, 47, null];
+        const cleanedArray = sampleArray.filter(Boolean); // Filters out all falsy values
+        document.getElementById('ex3-output').innerText = `Cleaned Array: [${cleanedArray.join(', ')}]`;
+
+        // --- EXERCISE 4: Repeat ---
+        function repeat(str, n = 1) {
+            let result = "";
+            for (let i = 0; i < n; i++) {
+                result += str;
+            }
+            return result;
+        }
+        document.getElementById('ex4-output').innerText = `Result: ${repeat('Ha!', 3)}`;
+
+        // --- EXERCISE 5: Race ---
+        const startLine = '     ||<- Start line';
+        let turtle = '🐢'.padStart(8);
+        let rabbit = '🐇'.padStart(8);
+        
+        document.getElementById('ex5-output').innerText = 
+            `${startLine}\n${turtle}\n${rabbit}`;
+
+        // Logging the padEnd answer to the console as requested
+        console.log("Turtle padEnd behavior:", '🐢'.trim().padEnd(9, '='));
+    </script>
+</body>
+</html>

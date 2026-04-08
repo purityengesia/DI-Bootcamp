@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JS Advanced Array Exercises</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            padding: 20px;
+            background-color: #f8f9fa;
+            color: #212529;
+        }
+        .container {
+            max-width: 900px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        h1 { color: #6c5ce7; border-bottom: 3px solid #6c5ce7; padding-bottom: 10px; }
+        h2 { color: #2d3436; margin-top: 30px; font-size: 1.2rem; border-left: 4px solid #a29bfe; padding-left: 10px; }
+        .output-box {
+            background: #2d3436;
+            color: #fab1a0;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Fira Code', 'Courier New', monospace;
+            white-space: pre-wrap;
+            margin-top: 10px;
+        }
+        .explanation {
+            background: #e1fffd;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 10px;
+            font-size: 0.9rem;
+            color: #008080;
+        }
+        code { background: #ffeaa7; padding: 2px 5px; border-radius: 4px; color: #d63031; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Advanced Array Methods Analysis</h1>
+        <p>Results are being calculated in the background. Check <strong>Console (F12)</strong> for alerts and logs.</p>
+
+        <h2>Ex 1: Analyzing the .map() Logic</h2>
+        <div id="ex1-output" class="output-box"></div>
+        <div class="explanation">Analysis: Since every element is a number, the function returns <code>num * 2</code> for each.</div>
+
+        <h2>Ex 2: Analyzing the .reduce() Logic</h2>
+        <div id="ex2-output" class="output-box"></div>
+        <div class="explanation">Analysis: It starts with <code>[1, 2]</code> and concatenates the nested arrays one by one.</div>
+
+        <h2>Ex 4: Nested Arrays & Flattening</h2>
+        <div id="ex4-output" class="output-box"></div>
+        <div class="explanation">
+            <strong>Techniques used:</strong> 
+            <ul>
+                <li><code>.flat(2)</code> to reach depth 2.</li>
+                <li><code>.join(" ")</code> to turn arrays into sentences.</li>
+                <li><code>.flat(Infinity)</code> to rescue the "trapped" number.</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        // --- EXERCISE 1 ---
+        const ex1Result = [1, 2, 3].map(num => {
+            if (typeof num === 'number') return num * 2;
+            return ;
+        });
+        document.getElementById('ex1-output').innerText = `Output: ${JSON.stringify(ex1Result)}`;
+
+        // --- EXERCISE 2 ---
+        const ex2Result = [[0, 1], [2, 3]].reduce(
+            (acc, cur) => {
+                return acc.concat(cur);
+            },
+            [1, 2],
+        );
+        document.getElementById('ex2-output').innerText = `Output: ${JSON.stringify(ex2Result)}`;
+
+        // --- EXERCISE 3 (Analysis) ---
+        // arrayNum = [1, 2, 4, 5, 8, 9]
+        // i will be 0, 1, 2, 3, 4, 5. 
+        // Note: I've commented out the alert so it doesn't interrupt your page load.
+        const arrayNum = [1, 2, 4, 5, 8, 9];
+        arrayNum.map((num, i) => {
+            console.log(`Ex 3 - Index: ${i}, Value: ${num}`);
+            // alert(num); // Uncomment to see alerts
+            return num * 2;
+        });
+
+        // --- EXERCISE 4 ---
+        const array = [[1],[2],[3],[[[4]]],[[[5]]]];
+        const flatArray = array.flat(2); // Modifies to [1,2,3,[4],[5]]
+
+        const greeting = [["Hello", "young", "grasshopper!"], ["you", "are"], ["learning", "fast!"]];
+        const flatGreeting = greeting.map(group => group.join(" "));
+        const stringGreeting = flatGreeting.join(" ");
+
+        const trapped = [[[[[[[[[[[[[[[[[[[[[[[[[[3]]]]]]]]]]]]]]]]]]]]]]]]]];
+        const escaped = trapped.flat(Infinity);
+
+        document.getElementById('ex4-output').innerHTML = 
+            `1. Flattened Array: ${JSON.stringify(flatArray)}\n` +
+            `2. Formatted Greeting: ${JSON.stringify(flatGreeting)}\n` +
+            `3. Full String: "${stringGreeting}"\n` +
+            `4. Escaped Number: ${JSON.stringify(escaped)}`;
+            
+    </script>
+</body>
+</html>

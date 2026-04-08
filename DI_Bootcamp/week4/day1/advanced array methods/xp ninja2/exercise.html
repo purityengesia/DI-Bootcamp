@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JS Advanced Logic - Master File</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            padding: 20px;
+            background-color: #f8f9fa;
+            color: #333;
+        }
+        .container {
+            max-width: 900px;
+            margin: auto;
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        h1 { text-align: center; color: #2c3e50; border-bottom: 4px solid #3498db; padding-bottom: 15px; }
+        h2 { color: #2980b9; margin-top: 30px; font-size: 1.2rem; border-left: 5px solid #3498db; padding-left: 10px; }
+        .instruction-box {
+            background: #e9f5ff;
+            border: 1px solid #b3d7ff;
+            padding: 15px;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+            color: #004085;
+        }
+        .output-box {
+            background: #2d3436;
+            color: #00cec9;
+            padding: 20px;
+            border-radius: 8px;
+            font-family: 'Consolas', 'Monaco', monospace;
+            white-space: pre-wrap;
+            margin: 10px 0;
+            box-shadow: inset 0 2px 10px rgba(0,0,0,0.5);
+        }
+        code { background: #ffeaa7; padding: 2px 4px; border-radius: 3px; color: #d63031; }
+        section { margin-bottom: 40px; padding-bottom: 20px; border-bottom: 1px solid #eee; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>JavaScript Assignment Master</h1>
+
+        <section id="menu-section">
+            <h2>Exercise 1: Menu Updates</h2>
+            <div class="instruction-box">
+                Checks for desserts, starters, and main courses. Dynamically adds a "vegetarian" key based on the name of the dish.
+            </div>
+            <div id="ex1-output" class="output-box"></div>
+        </section>
+
+        <section id="chop-section">
+            <h2>Exercise 2: Chop into Chunks</h2>
+            <div class="instruction-box">
+                Function <code>string_chop(str, size)</code> splits a string into an array of fixed lengths.
+            </div>
+            <div id="ex2-output" class="output-box"></div>
+        </section>
+
+        <section id="search-section">
+            <h2>Exercise 3: Search Word</h2>
+            <div class="instruction-box">
+                Function <code>search_word(text, word)</code> finds occurrences of a word within a string.
+            </div>
+            <div id="ex3-output" class="output-box"></div>
+        </section>
+
+        <section id="reverse-section">
+            <h2>Exercise 4: In-Place Reverse Array</h2>
+            <div class="instruction-box">
+                Reverses an array without creating a new one (using the swap technique).
+            </div>
+            <div id="ex4-output" class="output-box"></div>
+        </section>
+
+    </div>
+
+    <script>
+        // --- EXERCISE 1: MENU ---
+        const menu = [
+            { type: "starter", name: "Houmous with Pita" },
+            { type: "starter", name: "Vegetable Soup with Houmous peas" },
+            { type: "dessert", name: "Chocolate Cake" }
+        ];
+        const vegetarian = ["vegetable", "houmous", "eggs", "vanilla", "potatoes"];
+
+        let ex1Results = "";
+        
+        // Logical Checks
+        const hasDessert = menu.some(item => item.type === "dessert") ? "Yes" : "No";
+        const allStarters = menu.every(item => item.type === "starter");
+        
+        if (!menu.some(item => item.type === "main course")) {
+            menu.push({ type: "main course", name: "Grilled Salmon" });
+        }
+
+        // Add Vegetarian Key
+        menu.forEach(item => {
+            item.vegetarian = vegetarian.some(veg => item.name.toLowerCase().includes(veg.toLowerCase()));
+        });
+
+        ex1Results += `At least one dessert? ${hasDessert}\n`;
+        ex1Results += `All elements are starters? ${allStarters}\n\n`;
+        ex1Results += `Updated Menu:\n${JSON.stringify(menu, null, 2)}`;
+        
+        document.getElementById('ex1-output').innerText = ex1Results;
+
+        // --- EXERCISE 2: CHOP ---
+        function string_chop(str, size) {
+            if (!str) return [];
+            let chunks = [];
+            for (let i = 0; i < str.length; i += size) {
+                chunks.push(str.slice(i, i + size));
+            }
+            return chunks;
+        }
+        document.getElementById('ex2-output').innerText = 
+            `string_chop('developers', 2) => ${JSON.stringify(string_chop('developers', 2))}`;
+
+        // --- EXERCISE 3: SEARCH ---
+        function search_word(text, word) {
+            const regex = new RegExp(`\\b${word}\\b`, 'gi');
+            const matches = text.match(regex);
+            const count = matches ? matches.length : 0;
+            return `'${word}' was found ${count} times.`;
+        }
+        document.getElementById('ex3-output').innerText = 
+            search_word('The quick brown fox', 'fox');
+
+        // --- EXERCISE 4: REVERSE ---
+        function reverseArray(arr) {
+            let left = 0;
+            let right = arr.length - 1;
+            while (left < right) {
+                // Swap values in place
+                [arr[left], arr[right]] = [arr[right], arr[left]];
+                left++;
+                right--;
+            }
+            return arr;
+        }
+        const originalArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+        // We log a copy of the array for the "Original" display because reverseArray modifies it in place
+        const displayOriginal = [...originalArray];
+        const reversedResult = reverseArray(originalArray);
+
+        document.getElementById('ex4-output').innerText = 
+            `Original Array: [${displayOriginal.join(', ')}]\n` +
+            `Reversed Array: [${reversedResult.join(', ')}]`;
+
+    </script>
+</body>
+</html>

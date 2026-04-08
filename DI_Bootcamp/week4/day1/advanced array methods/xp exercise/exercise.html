@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript Array Exercises</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            padding: 20px;
+            background-color: #f4f7f6;
+            color: #333;
+        }
+        .container {
+            max-width: 900px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+        h1 { color: #2c3e50; border-bottom: 3px solid #3498db; padding-bottom: 10px; }
+        h2 { color: #2980b9; margin-top: 25px; font-size: 1.3rem; }
+        .output-box {
+            background: #2d3436;
+            color: #dfe6e9;
+            padding: 15px;
+            border-radius: 6px;
+            font-family: 'Consolas', 'Monaco', monospace;
+            white-space: pre-wrap;
+            margin: 10px 0;
+            border-left: 5px solid #00cec9;
+            font-size: 0.95rem;
+        }
+        code { background: #ffeaa7; padding: 2px 4px; border-radius: 3px; color: #d63031; font-weight: bold;}
+        .note { font-size: 0.85rem; color: #636e72; font-style: italic; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>JavaScript Assignment: Array Methods</h1>
+        <p>Results are being logged to the <strong>Console (F12)</strong> and displayed below.</p>
+
+        <h2>Exercise 1 & 2: Colors & Ordinals</h2>
+        <div id="ex1-2-output" class="output-box"></div>
+
+        <h2>Exercise 3: Analyzing the Spread Operator (...)</h2>
+        <div id="ex3-output" class="output-box"></div>
+        <p class="note">The spread operator "unpacks" elements into new arrays or strings.</p>
+
+        <h2>Exercise 4: Employees (Map & Filter)</h2>
+        <div id="ex4-output" class="output-box"></div>
+
+        <h2>Exercise 5: Star Wars (Reduce)</h2>
+        <div id="ex5-output" class="output-box"></div>
+
+        <h2>Exercise 6: Students (Filter & ForEach)</h2>
+        <div id="ex6-output" class="output-box"></div>
+    </div>
+
+    <script>
+        // --- EXERCISE 1 & 2 ---
+        const colors = ["Blue", "Green", "Red", "Orange", "Violet", "Indigo", "Yellow"];
+        const ordinal = ["th", "st", "nd", "rd"];
+        const ex12Div = document.getElementById('ex1-2-output');
+
+        colors.forEach((color, index) => {
+            const num = index + 1;
+            // Ex 2 logic: use ordinal index if 1-3, else use 0 ("th")
+            const suffix = (num <= 3) ? ordinal[num] : ordinal[0];
+            const message = `${num}${suffix} choice is ${color}.`;
+            
+            console.log(message);
+            ex12Div.innerHTML += message + "<br>";
+        });
+
+        // Ex 1: Check for Violet
+        const isViolet = colors.includes("Violet") ? "Yeah" : "No...";
+        console.log(isViolet);
+        ex12Div.innerHTML += `<br><strong>Is Violet present?</strong> ${isViolet}`;
+
+        // --- EXERCISE 3 ---
+        const ex3Div = document.getElementById('ex3-output');
+        
+        // 3.1
+        const fruits = ["apple", "orange"];
+        const vegetables = ["carrot", "potato"];
+        const result3_1 = ['bread', ...vegetables, 'chicken', ...fruits];
+        
+        // 3.2
+        const country = "USA";
+        const result3_2 = [...country];
+
+        // 3.3
+        let newArray = [...[,,]];
+
+        ex3Div.innerHTML = 
+            `1. Merged Array: ${JSON.stringify(result3_1)}\n` +
+            `2. Spread String: ${JSON.stringify(result3_2)}\n` +
+            `3. Bonus Array: ${JSON.stringify(newArray)}`;
+
+        // --- EXERCISE 4 ---
+        const users = [
+            { firstName: 'Bradley', lastName: 'Bouley', role: 'Full Stack Resident' },
+            { firstName: 'Chloe', lastName: 'Alnaji', role: 'Full Stack Resident' },
+            { firstName: 'Jonathan', lastName: 'Baughn', role: 'Enterprise Instructor' },
+            { firstName: 'Michael', lastName: 'Herman', role: 'Lead Instructor' },
+            { firstName: 'Robert', lastName: 'Hajek', role: 'Full Stack Resident' },
+            { firstName: 'Wes', lastName: 'Reid', role: 'Instructor'},
+            { firstName: 'Zach', lastName: 'Klabunde', role: 'Instructor'}
+        ];
+
+        const welcomeStudents = users.map(u => `Hello ${u.firstName}`);
+        const fullStack = users.filter(u => u.role === 'Full Stack Resident');
+        const residentLastNames = users
+            .filter(u => u.role === 'Full Stack Resident')
+            .map(u => u.lastName);
+
+        document.getElementById('ex4-output').innerHTML = 
+            `Welcome Messages: ${JSON.stringify(welcomeStudents, null, 1)}\n\n` +
+            `Full Stack Count: ${fullStack.length}\n` +
+            `Resident Last Names: ${JSON.stringify(residentLastNames)}`;
+
+        // --- EXERCISE 5 ---
+        const epic = ['a', 'long', 'time', 'ago', 'in a', 'galaxy', 'far far', 'away'];
+        const sentence = epic.reduce((acc, curr) => `${acc} ${curr}`);
+        document.getElementById('ex5-output').innerText = sentence;
+
+        // --- EXERCISE 6 ---
+        const students = [
+            {name: "Ray", course: "Computer Science", isPassed: true}, 
+            {name: "Liam", course: "Computer Science", isPassed: false}, 
+            {name: "Jenner", course: "Information Technology", isPassed: true}, 
+            {name: "Marco", course: "Robotics", isPassed: true}, 
+            {name: "Kimberly", course: "Artificial Intelligence", isPassed: false}, 
+            {name: "Jamie", course: "Big Data", isPassed: false}
+        ];
+
+        const ex6Div = document.getElementById('ex6-output');
+        students.filter(s => s.isPassed).forEach(s => {
+            const msg = `Good job ${s.name}, you passed the course in ${s.course}`;
+            console.log(msg);
+            ex6Div.innerHTML += msg + "<br>";
+        });
+    </script>
+</body>
+</html>

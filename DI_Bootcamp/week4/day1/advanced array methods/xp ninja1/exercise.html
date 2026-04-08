@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript Assignment: Data Transformation</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            padding: 20px;
+            background-color: #f0f2f5;
+            color: #1c1e21;
+        }
+        .container {
+            max-width: 900px;
+            margin: auto;
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        h1 { text-align: center; color: #2c3e50; border-bottom: 3px solid #3498db; padding-bottom: 10px; }
+        h2 { color: #2980b9; margin-top: 30px; font-size: 1.2rem; }
+        .instruction { font-style: italic; color: #555; margin-bottom: 10px; font-size: 0.9rem; }
+        .output-box {
+            background: #2d3436;
+            color: #55efc4;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Courier New', Courier, monospace;
+            white-space: pre-wrap;
+            margin: 10px 0;
+            border-left: 5px solid #00cec9;
+        }
+        section { border-bottom: 1px solid #eee; padding-bottom: 20px; }
+        code { background: #fdf2e9; color: #d35400; padding: 2px 4px; border-radius: 3px; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>JS Data Transformation Master</h1>
+
+        <section>
+            <h2>Exercise 1: Dog age to Human years</h2>
+            <p class="instruction">Summing dog ages (Age * 7) using both a Loop and Reduce.</p>
+            <div id="ex1-output" class="output-box"></div>
+        </section>
+
+        <section>
+            <h2>Exercise 2: Email Cleanup</h2>
+            <p class="instruction">Trimming whitespace in a single line.</p>
+            <div id="ex2-output" class="output-box"></div>
+        </section>
+
+        <section>
+            <h2>Exercise 3: Employees #3 (Array to Object)</h2>
+            <p class="instruction">Transforming array of users into <code>{ FullName: Role }</code>.</p>
+            <div id="ex3-output" class="output-box"></div>
+        </section>
+
+        <section>
+            <h2>Exercise 4: Array to Object (Letter Count)</h2>
+            <p class="instruction">Creating a frequency map of <code>['x', 'y', 'z', 'z']</code>.</p>
+            <div id="ex4-output" class="output-box"></div>
+        </section>
+    </div>
+
+    <script>
+        // --- DATA ---
+        const data = [
+            { name: 'Butters', age: 3, type: 'dog' },
+            { name: 'Cuty', age: 5, type: 'rabbit' },
+            { name: 'Lizzy', age: 6, type: 'dog' },
+            { name: 'Red', age: 1, type: 'cat' },
+            { name: 'Joey', age: 3, type: 'dog' },
+            { name: 'Rex', age: 10, type: 'dog' },
+        ];
+
+        // --- EXERCISE 1 LOGIC ---
+        // 1. Loop
+        let loopDogSum = 0;
+        for (let pet of data) {
+            if (pet.type === 'dog') loopDogSum += pet.age * 7;
+        }
+        // 2. Reduce
+        const reduceDogSum = data.reduce((acc, pet) => {
+            return pet.type === 'dog' ? acc + (pet.age * 7) : acc;
+        }, 0);
+
+        document.getElementById('ex1-output').innerText = 
+            `Loop Result: ${loopDogSum} human years\n` +
+            `Reduce Result: ${reduceDogSum} human years`;
+
+        // --- EXERCISE 2 LOGIC ---
+        const userEmail3 = ' cannotfillemailformcorrectly@gmail.com ';
+        const cleanEmail = userEmail3.trim();
+        document.getElementById('ex2-output').innerText = `Cleaned Email: "${cleanEmail}"`;
+
+        // --- EXERCISE 3 LOGIC ---
+        const users = [
+            { firstName: 'Bradley', lastName: 'Bouley', role: 'Full Stack Resident' },
+            { firstName: 'Chloe', lastName: 'Alnaji', role: 'Full Stack Resident' },
+            { firstName: 'Jonathan', lastName: 'Baughn', role: 'Enterprise Instructor' },
+            { firstName: 'Michael', lastName: 'Herman', role: 'Lead Instructor' },
+            { firstName: 'Robert', lastName: 'Hajek', role: 'Full Stack Resident' },
+            { firstName: 'Wes', lastName: 'Reid', role: 'Instructor'},
+            { firstName: 'Zach', lastName: 'Klabunde', role: 'Instructor'}
+        ];
+        const usersMap = {};
+        users.forEach(u => usersMap[`${u.firstName} ${u.lastName}`] = u.role);
+        document.getElementById('ex3-output').innerText = JSON.stringify(usersMap, null, 2);
+
+        // --- EXERCISE 4 LOGIC ---
+        const letters = ['x', 'y', 'z', 'z'];
+        // 1. Loop
+        const loopCount = {};
+        for (let char of letters) {
+            loopCount[char] = (loopCount[char] || 0) + 1;
+        }
+        // 2. Reduce
+        const reduceCount = letters.reduce((acc, char) => {
+            acc[char] = (acc[char] || 0) + 1;
+            return acc;
+        }, {});
+
+        document.getElementById('ex4-output').innerText = 
+            `Loop Object: ${JSON.stringify(loopCount)}\n` +
+            `Reduce Object: ${JSON.stringify(reduceCount)}`;
+
+    </script>
+</body>
+</html>

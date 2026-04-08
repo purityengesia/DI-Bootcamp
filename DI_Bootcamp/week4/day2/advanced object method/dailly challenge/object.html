@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Class Exercise</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            line-height: 1.6;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h2 { color: #333; border-bottom: 1px solid #ccc; }
+        .output {
+            background: #222;
+            color: #0f0;
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Video Class Implementation</h1>
+
+    <h2>Standard Instantiations</h2>
+    <div id="standard-output" class="output"></div>
+
+    <h2>Bonus: Five Instances from Array</h2>
+    <div id="bonus-output" class="output"></div>
+</div>
+
+<script>
+    // 1. Create the Video class
+    class Video {
+        constructor(title, uploader, time) {
+            this.title = title;
+            this.uploader = uploader;
+            this.time = time;
+        }
+
+        // 2. Create the watch() method
+        watch() {
+            const message = `${this.uploader} watched all ${this.time} seconds of "${this.title}"!`;
+            console.log(message);
+            return message;
+        }
+    }
+
+    const standardDiv = document.getElementById('standard-output');
+    const bonusDiv = document.getElementById('bonus-output');
+
+    // Helper to display results on screen
+    function display(target, text) {
+        target.innerHTML += text + "<br>";
+    }
+
+    // 3. Instantiate a new Video instance and call watch()
+    const video1 = new Video("Introduction to OOP", "Alice", 180);
+    display(standardDiv, video1.watch());
+
+    // 4. Instantiate a second Video instance with different values
+    const video2 = new Video("JavaScript Closures", "Bob", 450);
+    display(standardDiv, video2.watch());
+
+    // --- BONUS SECTION ---
+
+    // Bonus: Array to store data (Object literal structure is best for mapping to class parameters)
+    const videoData = [
+        { title: "CSS Grid Masterclass", uploader: "Charlie", time: 1200 },
+        { title: "Understanding the DOM", uploader: "Diana", time: 900 },
+        { title: "Async/Await Explained", uploader: "Eve", time: 600 },
+        { title: "Python for Beginners", uploader: "Frank", time: 3600 },
+        { title: "Baking the Perfect Sourdough", uploader: "Grace", time: 1500 }
+    ];
+
+    // Bonus: Loop through the array to instantiate those instances
+    const instances = [];
+    videoData.forEach(item => {
+        const newVideo = new Video(item.title, item.uploader, item.time);
+        instances.push(newVideo);
+        display(bonusDiv, newVideo.watch());
+    });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Info - forEach Exercises</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            padding: 20px;
+            background-color: #f0f2f5;
+            color: #1c1e21;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        h1 { color: #0984e3; border-bottom: 3px solid #0984e3; padding-bottom: 10px; text-align: center; }
+        h2 { color: #2d3436; margin-top: 30px; font-size: 1.2rem; border-left: 5px solid #0984e3; padding-left: 10px; }
+        .instruction { font-style: italic; color: #636e72; margin-bottom: 10px; font-size: 0.9rem; }
+        .output-box {
+            background: #2d3436;
+            color: #55efc4;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Courier New', Courier, monospace;
+            white-space: pre-wrap;
+            margin: 10px 0;
+            border-left: 5px solid #00cec9;
+        }
+        section { border-bottom: 1px solid #eee; padding-bottom: 20px; }
+        code { background: #fdf2e9; color: #d35400; padding: 2px 4px; border-radius: 3px; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Game Statistics Master</h1>
+
+        <section>
+            <h2>1. Usernames with Exclamations</h2>
+            <p class="instruction">Using <code>forEach</code> to add "!" to every username.</p>
+            <div id="ex1-output" class="output-box"></div>
+        </section>
+
+        <section>
+            <h2>2. Winners (Score > 5)</h2>
+            <p class="instruction">Filtering usernames where the score is greater than 5 using <code>forEach</code>.</p>
+            <div id="ex2-output" class="output-box"></div>
+        </section>
+
+        <section>
+            <h2>3. Total Score Accumulation</h2>
+            <p class="instruction">Calculating the sum of all player scores.</p>
+            <div id="ex3-output" class="output-box"></div>
+        </section>
+    </div>
+
+    <script>
+        // The Data
+        const gameInfo = [
+            { username: "john", team: "red", score: 5, items: ["ball", "book", "pen"] },
+            { username: "becky", team: "blue", score: 10, items: ["tape", "backpack", "pen"] },
+            { username: "susy", team: "red", score: 55, items: ["ball", "eraser", "pen"] },
+            { username: "tyson", team: "green", score: 1, items: ["book", "pen"] },
+        ];
+
+        // --- PART 1 ---
+        const usernames = [];
+        gameInfo.forEach(user => {
+            usernames.push(user.username + "!");
+        });
+        document.getElementById('ex1-output').innerText = `const usernames = ${JSON.stringify(usernames)}`;
+
+        // --- PART 2 ---
+        const winners = [];
+        gameInfo.forEach(user => {
+            if (user.score > 5) {
+                winners.push(user.username);
+            }
+        });
+        document.getElementById('ex2-output').innerText = `const winners = ${JSON.stringify(winners)}`;
+
+        // --- PART 3 ---
+        let totalScore = 0;
+        gameInfo.forEach(user => {
+            totalScore += user.score;
+        });
+        document.getElementById('ex3-output').innerText = `Total Score: ${totalScore}`;
+        
+        // Log to console for verification
+        console.log("Usernames:", usernames);
+        console.log("Winners:", winners);
+        console.log("Total Score:", totalScore);
+    </script>
+</body>
+</html>
