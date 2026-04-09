@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript Promises Exercises</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            line-height: 1.6;
+            padding: 20px;
+            background-color: #f4f4f9;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 { color: #333; }
+        .exercise {
+            margin-bottom: 30px;
+            padding: 15px;
+            border-left: 5px solid #007bff;
+            background: #eef7ff;
+        }
+        code {
+            background: #272822;
+            color: #f8f8f2;
+            padding: 2px 5px;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Promise Exercises</h1>
+    <p>Open your <strong>Console (F12)</strong> to see the logic in action.</p>
+
+    <div class="exercise">
+        <h3>Exercise 1: Comparison</h3>
+        <p>Checks if a number is ≤ 10.</p>
+    </div>
+
+    <div class="exercise">
+        <h3>Exercise 2: 4-Second Timer</h3>
+        <p id="timer-status">Waiting for 4 seconds...</p>
+    </div>
+
+    <div class="exercise">
+        <h3>Exercise 3: Static Resolve/Reject</h3>
+        <p>Check console for <code>3</code> and <code>"Boo!"</code></p>
+    </div>
+</div>
+
+<script>
+    // --- Exercise 1: Comparison ---
+    function compareToTen(num) {
+        return new Promise((resolve, reject) => {
+            if (num <= 10) {
+                resolve(`${num} is successful (<= 10)`);
+            } else {
+                reject(`${num} is too big (> 10)`);
+            }
+        });
+    }
+
+    compareToTen(15)
+        .then(res => console.log("Ex 1 (15):", res))
+        .catch(err => console.error("Ex 1 (15):", err));
+
+    compareToTen(8)
+        .then(res => console.log("Ex 1 (8):", res))
+        .catch(err => console.error("Ex 1 (8):", err));
+
+
+    // --- Exercise 2: Promises ---
+    const delayedSuccess = new Promise((resolve) => {
+        setTimeout(() => {
+            resolve("success");
+        }, 4000);
+    });
+
+    delayedSuccess.then(result => {
+        console.log("Ex 2:", result);
+        document.getElementById('timer-status').innerText = "Ex 2 Status: " + result + "!";
+        document.getElementById('timer-status').style.color = "green";
+    });
+
+
+    // --- Exercise 3: Resolve & Reject ---
+    const resolveThree = Promise.resolve(3);
+    const rejectBoo = Promise.reject("Boo!");
+
+    resolveThree.then(val => console.log("Ex 3 (Resolve):", val));
+    rejectBoo.catch(err => console.error("Ex 3 (Reject):", err));
+
+</script>
+</body>
+</html>

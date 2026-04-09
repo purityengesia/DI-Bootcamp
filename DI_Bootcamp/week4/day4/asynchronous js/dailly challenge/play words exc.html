@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript Promises: Daily Challenges</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            background-color: #f4f4f9;
+            color: #333;
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+        }
+        h1 { color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 10px; }
+        h2 { color: #2980b9; margin-top: 30px; }
+        .section { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); margin-bottom: 20px; }
+        button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background 0.3s;
+        }
+        button:hover { background-color: #2980b9; }
+        #morse-output {
+            margin-top: 15px;
+            padding: 15px;
+            background: #2c3e50;
+            color: #ecf0f1;
+            border-radius: 4px;
+            min-height: 50px;
+            font-family: 'Courier New', Courier, monospace;
+            white-space: pre-wrap;
+            border-left: 5px solid #3498db;
+        }
+        .error { color: #e74c3c; font-weight: bold; }
+        .success { color: #2ecc71; font-weight: bold; }
+        code { background: #eee; padding: 2px 5px; border-radius: 3px; }
+    </style>
+</head>
+<body>
+
+    <h1>JavaScript Promise Exercises</h1>
+
+    <div class="section">
+        <h2>Challenge 1: Word Uppercasing & Sorting</h2>
+        <p>This challenge runs automatically. Please <strong>open your Browser Console</strong> (F12 or Right Click > Inspect > Console) to see the results of the three test cases.</p>
+        <ul>
+            <li>Test 1: Fails (contains a number)</li>
+            <li>Test 2: Fails (array length ≤ 4)</li>
+            <li>Test 3: Success (returns sorted uppercase words)</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2>Challenge 2: Morse Code Translator</h2>
+        <p>Click the button below. You will be prompted to enter a word or sentence (e.g., "Hello").</p>
+        <button onclick="runMorseTranslator()">Translate to Morse</button>
+        <div id="morse-output">The Morse translation will appear here...</div>
+    </div>
+
+    <script>
+        /* --- 1st DAILY CHALLENGE --- */
+
+        const makeAllCaps = (words) => {
+            return new Promise((resolve, reject) => {
+                const allStrings = words.every(word => typeof word === 'string');
+                if (allStrings) {
+                    resolve(words.map(word => word.toUpperCase()));
+                } else {
+                    reject("Reject: One of the items is not a string!");
+                }
+            });
+        };
+
+        const sortWords = (words) => {
+            return new Promise((resolve, reject) => {
+                if (words.length > 4) {
+                    resolve([...words].sort());
+                } else {
+                    reject("Reject: Array length is 4 or less!");
+                }
+            });
+        };
+
+        // Running Tests for Challenge 1
+        console.log("%c--- Challenge 1: Console Tests ---", "color: #3498db; font-weight: bold;");
+
+        // Test 1: Should fail (1 is not a string)
+        makeAllCaps([1, "pear", "banana"])
+            .then((arr) => sortWords(arr))
+            .then((result) => console.log("Test 1 Result:", result))
+            .catch(error => console.log("Test 1 Catch:", error));
+
+        // Test 2: Should fail (Length is only 3)
+        makeAllCaps(["apple", "pear", "banana"])
+            .then((arr) => sortWords(arr))
+            .then((result) => console.log("Test 2 Result:", result))
+            .catch(error => console.log("Test 2 Catch:", error));
+
+        // Test 3: Should succeed
+        makeAllCaps(["apple", "pear", "banana", "melon", "kiwi"])
+            .then((arr) => sortWords(arr))
+            .then((result) => console.log("Test 3 Success:", result))
+            .catch(error => console.log("Test 3 Error:", error));
+
+
+        /* --- 2nd DAILY CHALLENGE --- */
+
+        const morse = `{
+            "0": "-----", "1": ".----", "2": "..---", "3": "...--", "4": "....-",
+            "5": ".....", "6": "-....", "7": "--...", "8": "---..", "9": "----.",
+            "a": ".-", "b": "-...", "c": "-.-.", "d": "-..", "e": ".", "f": "..-.",
+            "g": "--.", "h": "....", "i": "..", "j": ".---", "k": "-.-", "l": ".-..",
+            "m": "--", "n": "-.", "o": "---", "p": ".--.", "q": "--.-", "r": ".-.",
+            "s": "...", "t": "-", "u": "..-", "v": "...-", "w": ".--", "x": "-..-",
+            "y": "-.--", "z": "--..", ".": ".-.-.-", ",": "--..--", "?": "..--..",
+            "!": "-.-.--", "-": "-....-", "/": "-..-.", "@": ".--.-.", "(": "-.--.", ")": "-.--.-"
+        }`;
+
+        // Function 1: Convert JSON String to Object
+        const toJs = () => {
+            return new Promise((resolve, reject) => {
+                const morseJS = JSON.parse(morse);
+                if (Object.keys(morseJS).length === 0) {
+                    reject("Error: The Morse object is empty.");
+                } else {
+                    resolve(morseJS);
+                }
+            });
+        };
+
+        // Function 2: Map user input to Morse
+        const toMorse = (morseJS) => {
+            return new Promise((resolve, reject) => {
+                const userInput = prompt("Enter a word or sentence:");
+                
+                if (!userInput) {
+                    reject("No input provided.");
+                    return;
+                }
+
+                const cleanedInput = userInput.toLowerCase().replace(/\s/g, "");
+                const result = [];
+
+                for (let char of cleanedInput) {
+                    if (morseJS[char]) {
+                        result.push(morseJS[char]);
+                    } else {
+                        reject(`Error: Character "${char}" doesn't exist in the Morse object.`);
+                        return;
+                    }
+                }
+                resolve(result);
+            });
+        };
+
+        // Function 3: Display results on DOM
+        const joinWords = (morseTranslation) => {
+            const outputDiv = document.getElementById('morse-output');
+            // Join with line break as requested
+            outputDiv.innerHTML = `<span class="success">Translation Successful:</span><br>` + morseTranslation.join("<br>");
+        };
+
+        // Triggering the Morse Chain
+        function runMorseTranslator() {
+            const outputDiv = document.getElementById('morse-output');
+            outputDiv.innerHTML = "Processing...";
+
+            toJs()
+                .then(morseObj => toMorse(morseObj))
+                .then(translation => joinWords(translation))
+                .catch(error => {
+                    outputDiv.innerHTML = `<span class="error">${error}</span>`;
+                });
+        }
+    </script>
+</body>
+</html>

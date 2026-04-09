@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Promises - Exercises</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            padding: 20px;
+            background-color: #f0f2f5;
+            color: #333;
+        }
+        .container {
+            max-width: 900px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        h1 { border-bottom: 2px solid #007bff; padding-bottom: 10px; }
+        .exercise {
+            margin-bottom: 25px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background: #fff;
+        }
+        .exercise h3 { margin-top: 0; color: #007bff; }
+        .log-box {
+            background: #272822;
+            color: #a6e22e;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: 'Courier New', Courier, monospace;
+            min-height: 40px;
+            margin-top: 10px;
+            white-space: pre-wrap;
+        }
+        .note { font-style: italic; color: #666; font-size: 0.9em; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>JavaScript Promise.all() Lab</h1>
+    <p>Watch the boxes below populate as the promises resolve. Open <strong>Console (F12)</strong> for detailed errors.</p>
+
+    <div class="exercise">
+        <h3>Exercise 1: Promise.all() Implementation</h3>
+        <p class="note">Waiting for 3 seconds (Promise 3 delay)...</p>
+        <div id="ex1-log" class="log-box">Loading...</div>
+    </div>
+
+    <div class="exercise">
+        <h3>Exercise 2: Analyse Promise.all()</h3>
+        <p>Mapping <code>[1, 2, 3]</code> to <code>x * 2</code> via Async function.</p>
+        <div id="ex2-log" class="log-box">Loading...</div>
+    </div>
+</div>
+
+<script>
+    // Utility function to display results on the page
+    function display(id, message) {
+        document.getElementById(id).innerText = JSON.stringify(message);
+    }
+
+    // --- Exercise 1: Promise.all() ---
+    const promise1 = Promise.resolve(3);
+    const promise2 = 42; 
+    const promise3 = new Promise((resolve, reject) => {
+      setTimeout(resolve, 3000, 'foo');
+    });
+
+    /* How it works: Promise.all takes an array of promises. 
+       It returns one promise that resolves when all items in the array are finished.
+       If one fails, they all fail (catch block triggers).
+    */
+    Promise.all([promise1, promise2, promise3])
+      .then((values) => {
+        console.log("Ex 1 Result:", values);
+        display('ex1-log', values);
+      })
+      .catch(err => console.error(err));
+
+
+    // --- Exercise 2: Analyse Promise.all() ---
+    function timesTwoAsync(x) {
+      return new Promise(resolve => resolve(x * 2));
+    }
+
+    const arr = [1, 2, 3];
+    // .map creates an array of 3 promises: [Promise(2), Promise(4), Promise(6)]
+    const promiseArr = arr.map(timesTwoAsync);
+
+    Promise.all(promiseArr)
+      .then(result => {
+        console.log("Ex 2 Result:", result);
+        display('ex2-log', result); // Expected: [2, 4, 6]
+      });
+
+</script>
+</body>
+</html>
