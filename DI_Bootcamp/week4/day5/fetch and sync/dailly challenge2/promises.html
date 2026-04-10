@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sunrise Comparison</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; padding: 30px; background-color: #f0f2f5; }
+        .container { max-width: 600px; margin: auto; background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        .city-inputs { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px; }
+        .group { display: flex; flex-direction: column; gap: 8px; border: 1px solid #ddd; padding: 15px; border-radius: 8px; }
+        h3 { margin-top: 0; color: #333; }
+        input { padding: 8px; border: 1px solid #ccc; border-radius: 4px; }
+        button { background-color: #f39c12; color: white; border: none; padding: 12px; border-radius: 6px; cursor: pointer; font-weight: bold; width: 100%; transition: 0.3s; }
+        button:hover { background-color: #e67e22; }
+        #results { margin-top: 20px; padding: 15px; display: none; background: #fff9db; border-left: 5px solid #f1c40f; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Sunrise Times</h1>
+    <form id="sunrise-form">
+        <div class="city-inputs">
+            <div class="group">
+                <h3>City 1</h3>
+                <input type="text" id="lat1" placeholder="Latitude (e.g. 48.86)" value="48.864716" required>
+                <input type="text" id="lng1" placeholder="Longitude (e.g. 2.34)" value="2.349014" required>
+            </div>
+            <div class="group">
+                <h3>City 2</h3>
+                <input type="text" id="lat2" placeholder="Latitude (e.g. 40.73)" value="40.730610" required>
+                <input type="text" id="lng2" placeholder="Longitude (e.g. -73.93)" value="-73.935242" required>
+            </div>
+        </div>
+        <button type="submit">Get Sunrise Hours</button>
+    </form>
+
+    <div id="results"></div>
+</div>
+
+<script>
+    document.getElementById('sunrise-form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const resultDiv = document.getElementById('results');
+        
+        // Get values from inputs
+        const lat1 = document.getElementById('lat1').value;
+        const lng1 = document.getElementById('lng1').value;
+        const lat2 = document.getElementById('lat2').value;
+        const lng2 = document.getElementById('lng2').value;
+
+        const url1 = `https://api.sunrise-sunset.org/json?lat=${lat1}&lng=${lng1}&date=today`;
+        const url2 = `https://api.sunrise-sunset.org/json?lat=${lat2}&lng=${lng2}&date=today`;
+
+        resultDiv.style.display = "block";
+        resultDiv.innerHTML = "Fetching times...";
+
+        try {
+            // Promise.all waits for both fetch requests and both .json() conversions
+            const responses = await Promise.all([
+                fetch(url1).then(res => res.json()),
+                fetch(url2).then(res => res.json())
+            ]);
+
+            // responses is an array containing the results of both promises
+            const sunrise1 = responses[0].results.sunrise;
+            const sunrise2 = responses[1].results.sunrise;
+
+            resultDiv.innerHTML = `
+                <p><strong>City 1 Sunrise:</strong> ${sunrise1}</p>
+                <p><strong>City 2 Sunrise:</strong> ${sunrise2}</p>
+                <small>*Times are in UTC</small>
+            `;
+        } catch (error) {
+            console.error("Error fetching data:", error);
+            resultDiv.innerHTML = "Error retrieving data. Please check your coordinates.";
+        }
+    });
+</script>
+
+</body>
+</html>
