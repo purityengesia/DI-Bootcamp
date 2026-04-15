@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TypeScript Fundamentals Exercises</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f4f7f6;
+        }
+        h1 { color: #3178c6; text-align: center; border-bottom: 2px solid #3178c6; padding-bottom: 10px; }
+        .exercise {
+            background: white;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        h2 { color: #235a97; margin-top: 0; font-size: 1.2rem; }
+        pre {
+            background-color: #282c34;
+            color: #abb2bf;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            font-size: 0.9rem;
+        }
+        code { font-family: 'Consolas', 'Monaco', monospace; }
+        .comment { color: #5c6370; font-style: italic; }
+        .keyword { color: #c678dd; }
+        .string { color: #98c379; }
+        .type { color: #e5c07b; }
+        .hint {
+            font-size: 0.85rem;
+            color: #666;
+            background: #eef;
+            padding: 10px;
+            border-left: 4px solid #3178c6;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>TypeScript Exercise Solutions</h1>
+    <p style="text-align: center;">Open the <strong>Browser Console (F12)</strong> to see the output of these exercises.</p>
+
+    <div class="exercise">
+        <h2>Exercise 1: Hello, World!</h2>
+        <pre><code><span class="keyword">const</span> message: <span class="type">string</span> = <span class="string">"Hello, World!"</span>;
+console.log(message);</code></pre>
+    </div>
+
+    <div class="exercise">
+        <h2>Exercise 2: Type Annotations</h2>
+        <pre><code><span class="keyword">let</span> age: <span class="type">number</span> = <span class="keyword">25</span>;
+<span class="keyword">let</span> name: <span class="type">string</span> = <span class="string">"Alice"</span>;
+console.log(<span class="string">`Name: ${name}, Age: ${age}`</span>);</code></pre>
+    </div>
+
+    <div class="exercise">
+        <h2>Exercise 3: Union Types</h2>
+        <pre><code><span class="keyword">let</span> id: <span class="type">string | number</span>;
+id = <span class="keyword">101</span>;
+console.log(<span class="string">"ID as number:"</span>, id);
+id = <span class="string">"A101"</span>;
+console.log(<span class="string">"ID as string:"</span>, id);</code></pre>
+    </div>
+
+    <div class="exercise">
+        <h2>Exercise 4: Control Flow (if...else)</h2>
+        <pre><code><span class="keyword">function</span> checkNumber(num: <span class="type">number</span>): <span class="type">string</span> {
+    <span class="keyword">if</span> (num > <span class="keyword">0</span>) <span class="keyword">return</span> <span class="string">"positive"</span>;
+    <span class="keyword">else if</span> (num < <span class="keyword">0</span>) <span class="keyword">return</span> <span class="string">"negative"</span>;
+    <span class="keyword">else return</span> <span class="string">"zero"</span>;
+}</code></pre>
+    </div>
+
+    <div class="exercise">
+        <h2>Exercise 5: Tuple Types</h2>
+        <pre><code><span class="keyword">function</span> getDetails(name: <span class="type">string</span>, age: <span class="type">number</span>): [<span class="type">string, number, string</span>] {
+    <span class="keyword">const</span> greeting = <span class="string">`Hello, ${name}! You are ${age} years old.`</span>;
+    <span class="keyword">return</span> [name, age, greeting];
+}</code></pre>
+    </div>
+
+    <div class="exercise">
+        <h2>Exercise 6: Object Type Annotations</h2>
+        <pre><code><span class="keyword">type</span> <span class="type">Person</span> = { name: <span class="type">string</span>; age: <span class="type">number</span> };
+
+<span class="keyword">function</span> createPerson(name: <span class="type">string</span>, age: <span class="type">number</span>): <span class="type">Person</span> {
+    <span class="keyword">return</span> { name, age };
+}</code></pre>
+    </div>
+
+    <div class="exercise">
+        <h2>Exercise 7: Type Assertions</h2>
+        <input type="text" id="user-input" value="Sample Text" style="margin-bottom: 10px;">
+        <div class="hint">This exercise manipulates the input field above using type assertion.</div>
+        <pre><code><span class="keyword">const</span> inputElement = document.getElementById(<span class="string">"user-input"</span>) <span class="keyword">as</span> <span class="type">HTMLInputElement</span>;
+inputElement.value = <span class="string">"Updated via Type Assertion!"</span>;</code></pre>
+    </div>
+
+    <div class="exercise">
+        <h2>Exercise 8: Switch Statement</h2>
+        <pre><code><span class="keyword">function</span> getAction(role: <span class="type">string</span>): <span class="type">string</span> {
+    <span class="keyword">switch</span> (role) {
+        <span class="keyword">case</span> <span class="string">"admin"</span>: <span class="keyword">return</span> <span class="string">"Manage users and settings"</span>;
+        <span class="keyword">case</span> <span class="string">"editor"</span>: <span class="keyword">return</span> <span class="string">"Edit content"</span>;
+        <span class="keyword">default</span>: <span class="keyword">return</span> <span class="string">"Invalid role"</span>;
+    }
+}</code></pre>
+    </div>
+
+    <div class="exercise">
+        <h2>Exercise 9: Function Overloading</h2>
+        <pre><code><span class="keyword">function</span> greet(): <span class="type">string</span>;
+<span class="keyword">function</span> greet(name: <span class="type">string</span>): <span class="type">string</span>;
+<span class="keyword">function</span> greet(name: <span class="type">string</span> = <span class="string">"Guest"</span>): <span class="type">string</span> {
+    <span class="keyword">return</span> <span class="string">`Hello, ${name}!`</span>;
+}</code></pre>
+    </div>
+
+    <script>
+        // --- EXERCISE SOLUTIONS IN JAVASCRIPT (TRANSPILED FROM TS) ---
+
+        console.log("%c--- Exercise 1 ---", "color: blue; font-weight: bold");
+        const message = "Hello, World!";
+        console.log(message);
+
+        console.log("%c--- Exercise 2 ---", "color: blue; font-weight: bold");
+        let age = 25;
+        let name = "Alice";
+        console.log(`Name: ${name}, Age: ${age}`);
+
+        console.log("%c--- Exercise 3 ---", "color: blue; font-weight: bold");
+        let id;
+        id = 101;
+        console.log("ID as number:", id);
+        id = "ABC";
+        console.log("ID as string:", id);
+
+        console.log("%c--- Exercise 4 ---", "color: blue; font-weight: bold");
+        function checkNumber(num) {
+            if (num > 0) return "positive";
+            else if (num < 0) return "negative";
+            else return "zero";
+        }
+        console.log("Check 10:", checkNumber(10));
+        console.log("Check -5:", checkNumber(-5));
+
+        console.log("%c--- Exercise 5 ---", "color: blue; font-weight: bold");
+        function getDetails(name, age) {
+            const greeting = `Hello, ${name}! You are ${age} years old.`;
+            return [name, age, greeting];
+        }
+        const details = getDetails("Alice", 25);
+        console.log(details);
+
+        console.log("%c--- Exercise 6 ---", "color: blue; font-weight: bold");
+        function createPerson(name, age) {
+            return { name: name, age: age };
+        }
+        console.log(createPerson("Bob", 30));
+
+        console.log("%c--- Exercise 7 ---", "color: blue; font-weight: bold");
+        const inputElement = document.getElementById("user-input");
+        if (inputElement) {
+            inputElement.value = "Updated via Type Assertion!";
+            console.log("Input value updated successfully.");
+        }
+
+        console.log("%c--- Exercise 8 ---", "color: blue; font-weight: bold");
+        function getAction(role) {
+            switch (role) {
+                case "admin": return "Manage users and settings";
+                case "editor": return "Edit content";
+                case "viewer": return "View content";
+                case "guest": return "Limited access";
+                default: return "Invalid role";
+            }
+        }
+        console.log(getAction("admin"));
+        console.log(getAction("guest"));
+
+        console.log("%c--- Exercise 9 ---", "color: blue; font-weight: bold");
+        function greet(name = "Guest") {
+            return `Hello, ${name}!`;
+        }
+        console.log(greet());
+        console.log(greet("Alice"));
+
+    </script>
+</body>
+</html>

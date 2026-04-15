@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TypeScript: Runtime Type Validation</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f4f7f6;
+        }
+        .exercise-card {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            border-left: 6px solid #2ecc71;
+        }
+        h2 { color: #2ecc71; margin-top: 0; }
+        pre {
+            background-color: #282c34;
+            color: #abb2bf;
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-family: 'Consolas', monospace;
+        }
+        .keyword { color: #c678dd; }
+        .function { color: #61afef; }
+        .string { color: #98c379; }
+        .type { color: #e5c07b; }
+        .comment { color: #5c6370; }
+        .status {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+        .info { background: #e8f4fd; border-left: 4px solid #3498db; padding: 10px; margin: 10px 0; }
+    </style>
+</head>
+<body>
+
+    <div class="exercise-card">
+        <h2>Exercise: validateUnionType</h2>
+        <p>This function performs <strong>Runtime Type Checking</strong> by comparing the <code>typeof</code> a value against an array of valid type strings.</p>
+        
+        <pre><code><span class="keyword">function</span> <span class="function">validateUnionType</span>(value: <span class="type">any</span>, allowedTypes: <span class="type">string[]</span>): <span class="type">boolean</span> {
+    <span class="keyword">const</span> currentType = <span class="keyword">typeof</span> value;
+    <span class="keyword">return</span> allowedTypes.includes(currentType);
+}
+
+<span class="comment">// Usage:</span>
+<span class="keyword">const</span> isValid = validateUnionType(<span class="string">"Hello"</span>, [<span class="string">"string"</span>, <span class="string">"number"</span>]); <span class="comment">// true</span></code></pre>
+
+        <div class="info">
+            <strong>Check your Browser Console:</strong> I have logged several test cases to demonstrate how the function handles strings, numbers, and booleans.
+        </div>
+    </div>
+
+    <script>
+        // Implementation
+        function validateUnionType(value, allowedTypes) {
+            // Get the runtime type of the value
+            const currentType = typeof value;
+            
+            // Check if that type exists in the allowed list
+            return allowedTypes.includes(currentType);
+        }
+
+        // Testing and Logging
+        console.log("%c--- Runtime Validation Results ---", "color: #2ecc71; font-weight: bold; font-size: 1.1rem;");
+
+        const test1 = validateUnionType(42, ["string", "number"]);
+        console.log(`Is 42 a string or number? %c${test1}`, test1 ? "color: green" : "color: red");
+
+        const test2 = validateUnionType("TypeScript", ["number", "boolean"]);
+        console.log(`Is "TypeScript" a number or boolean? %c${test2}`, test2 ? "color: green" : "color: red");
+
+        const test3 = validateUnionType(true, ["boolean", "string"]);
+        console.log(`Is true a boolean or string? %c${test3}`, test3 ? "color: green" : "color: red");
+
+        const test4 = validateUnionType({ name: "Alice" }, ["object", "undefined"]);
+        console.log(`Is the object valid? %c${test4}`, test4 ? "color: green" : "color: red");
+    </script>
+</body>
+</html>
