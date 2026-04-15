@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Currency Converter</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+    <style>
+        body {
+            /* Background image to match your screenshot style */
+            background: url('https://images.unsplash.com/photo-1580519542036-c47de6196ba5?auto=format&fit=crop&w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+            font-family: 'Arial', sans-serif;
+            height: 100vh;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .overlay {
+            background-color: rgba(0, 0, 0, 0.5); /* Transparent dark overlay */
+            padding: 40px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 600px;
+            color: white;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            font-weight: 300;
+        }
+
+        label {
+            display: block;
+            font-size: 1.5rem;
+            margin: 15px 0 10px;
+        }
+
+        select, input {
+            width: 80%;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            margin-bottom: 10px;
+        }
+
+        .amount-container {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        #amount {
+            width: 50%;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: transparent;
+            color: white;
+            border: 1px solid white;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background-color: white;
+            color: black;
+        }
+
+        #switch-btn {
+            border: none;
+            font-size: 1.5rem;
+            margin: 10px 0;
+        }
+
+        #result {
+            margin-top: 30px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.2);
+            font-size: 1.8rem;
+            border-radius: 5px;
+            min-height: 1.8rem;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="overlay">
+        <h1>Currency Converter</h1>
+
+        <label>From:</label>
+        <select id="from-currency"></select>
+
+        <div class="switch-container">
+            <button id="switch-btn" title="Switch currencies">
+                <i class="fa-solid fa-arrows-up-down"></i>
+            </button>
+        </div>
+
+        <label>To:</label>
+        <select id="to-currency"></select>
+
+        <label>Amount:</label>
+        <div class="amount-container">
+            <input type="number" id="amount" value="1" min="0">
+            <button id="convert-btn">Convert</button>
+        </div>
+
+        <div id="result">---</div>
+    </div>
+
+    <script>
+        const API_KEY = '2f02d1ae74ebe0c848583c1a'; // Replace with your key
+        const BASE_URL = `https://v6.exchangerate-api.com/v6/${API_KEY}`;
+
+        const fromSelect = document.getElementById('from-currency');
+        const toSelect = document.getElementById('to-currency');
+        const amountInput = document.getElementById('amount');
+        const convertBtn = document.getElementById('convert-btn');
+        const switchBtn = document.getElementById('switch-btn');
+        const resultDiv = document.getElementById('result');
+
+        // 1. Fetch supported codes to populate selects
+        async function fetchCodes() {
+            try {
+                const response = await fetch(`${BASE_URL}/codes`);
+                const data = await response.json();
+                
+                if (data.result === "success") {
+                    data.supported_codes.forEach(([code, name]) => {
+                        const opt1 = new Option(`${code} - ${name}`, code);
+                        const opt2 = new Option(`${code} - ${name}`, code);
+                        fromSelect.add(opt1);
+                        toSelect.add(opt2);
+                    });
+
+                    // Set defaults based on your image
+                    fromSelect.value = "USD";
+                    toSelect.value = "ILS";
+                }
+            } catch (err) {
+                resultDiv.innerText = "Error loading currency list.";
+            }
+        }
+
+        // 2. Perform conversion
+        async function performConversion() {
+            const from = fromSelect.value;
+            const to = toSelect.value;
+            const amount = amountInput.value;
+
+            if (!amount || amount <= 0) return;
+
+            resultDiv.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>';
+
+            try {
+                const response = await fetch(`${BASE_URL}/pair/${from}/${to}/${amount}`);
+                const data = await response.json();
+
+                if (data.result === "success") {
+                    resultDiv.innerText = `${data.conversion_result.toFixed(5)} ${to}`;
+                } else {
+                    resultDiv.innerText = "Check API Key.";
+                }
+            } catch (err) {
+                resultDiv.innerText = "Connection Error.";
+            }
+        }
+
+        // 3. Switch Button (Bonus)
+        switchBtn.addEventListener('click', () => {
+            const temp = fromSelect.value;
+            fromSelect.value = toSelect.value;
+            toSelect.value = temp;
+            performConversion();
+        });
+
+        // Initialize
+        fetchCodes();
+        convertBtn.addEventListener('click', performConversion);
+    </script>
+</body>
+</html>
