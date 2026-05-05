@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SQL Quiz Game</title>
+    <style>
+        body { font-family: sans-serif; display: flex; justify-content: center; padding-top: 50px; }
+        #quiz-container { border: 1px solid #ccc; padding: 20px; border-radius: 8px; width: 400px; }
+        .option-btn { display: block; width: 100%; margin: 10px 0; padding: 10px; cursor: pointer; }
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+
+<div id="quiz-container">
+    <div id="game">
+        <h2 id="question-text">Loading...</h2>
+        <div id="options-container"></div>
+        <p id="feedback"></p>
+    </div>
+    <div id="result" class="hidden">
+        <h2>Quiz Complete!</h2>
+        <p>Your Score: <span id="final-score"></span></p>
+        <button onclick="location.reload()">Restart</button>
+    </div>
+</div>
+
+<script>
+    let questions = [];
+    let currentIndex = 0;
+    let score = 0;
+
+    async function loadQuiz() {
+        const res = await fetch('/api/questions');
+        questions = await res.json();
+        showQuestion();
+    }
+
+    function showQuestion() {
+        if (currentIndex >= questions.length) {
+            document.getElementById('game').classList.add('hidden');
+            document.getElementById('result').classList.remove('hidden');
+            document.getElementById('final-score').innerText = `${score} / ${questions.length}`;
+            return;
+        }
+
+        const q = questions[currentIndex];
+        document.getElementById('question-text').innerText = q.question;
+        const container = document.getElementById('options-container');
+        container.innerHTML = '';
+        document.getElementById('feedback').innerText = '';
+
+        q.options.forEach(opt => {
+            const btn = document.createElement('button');
+            btn.className = 'option-btn';
+            btn.innerText = opt;
+            btn.onclick = () => checkAnswer(opt, q.correct_answer);
+            container.appendChild(btn);
+        });
+    }
+
+    function checkAnswer(selected, correct) {
+        const feedback = document.getElementById('feedback');
+        if (selected === correct) {
+            score++;
+            feedback.innerText = "Correct! ✅";
+            feedback.style.color = "green";
+        } else {
+            feedback.innerText = `Wrong! ❌ The answer was ${correct}`;
+            feedback.style.color = "red";
+        }
+        
+        setTimeout(() => {
+            currentIndex++;
+            showQuestion();
+        }, 1500);
+    }
+
+    loadQuiz();
+</script>
+</body>
+</html>
