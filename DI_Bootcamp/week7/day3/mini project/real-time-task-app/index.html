@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Real-Time Chat</title>
+    <style>
+        body { font-family: sans-serif; display: flex; height: 100vh; margin: 0; }
+        #sidebar { width: 200px; background: #2c3e50; color: white; padding: 20px; }
+        #chat-area { flex: 1; display: flex; flex-direction: column; }
+        #messages { flex: 1; overflow-y: scroll; padding: 20px; background: #ecf0f1; }
+        #form { display: flex; padding: 10px; background: white; border-top: 1px solid #ccc; }
+        #input { flex: 1; padding: 10px; border: 1px solid #ddd; border-radius: 4px; }
+        .msg { margin-bottom: 10px; }
+        .msg b { color: #2980b9; }
+    </style>
+</head>
+<body>
+
+    <div id="sidebar">
+        <h3>Room: <span id="room-name"></span></h3>
+        <h4>Users:</h4>
+        <ul id="user-list"></ul>
+    </div>
+
+    <div id="chat-area">
+        <div id="messages"></div>
+        <form id="form">
+            <input id="input" autocomplete="off" placeholder="Type a message..." />
+            <button>Send</button>
+        </form>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const socket = io();
+
+        // 1. Get user details
+        const username = prompt("Enter your username:");
+        const room = prompt("Enter room name (e.g., JavaScript, Gaming):");
+
+        document.getElementById('room-name').innerText = room;
+
+        // 2. Join the room
+        socket.emit('joinRoom', { username, room });
+
+        // 3. Listen for messages
+        socket.on('message', (msg) => {
+            const div = document.createElement('div');
+            div.className = 'msg';
+            div.innerHTML = `<b>${msg.user}:</b> ${msg.text}`;
+            document.getElementById('messages').appendChild(div);
+            document.getElementById('messages').scrollTop = document.getElementById('messages').scrollHeight;
+            
+            // Simple notification if the tab isn't focused
+            if (document.hidden) {
+                new Notification(`New message from ${msg.user}`, { body: msg.text });
+            }
+        });
+
+        // 4. Update sidebar user list
+        socket.on('roomData', ({ users }) => {
+            const list = document.getElementById('user-list');
+            list.innerHTML = users.map(u => `<li>${u.username}</li>`).join('');
+        });
+
+        // 5. Send message
+        document.getElementById('form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const input = document.getElementById('input');
+            if (input.value) {
+                socket.emit('chatMessage', input.value);
+                input.value = '';
+            }
+        });
+
+        // Request notification permission
+        if (Notification.permission !== "granted") {
+            Notification.requestPermission();
+        }
+    </script>
+</body>
+</html>

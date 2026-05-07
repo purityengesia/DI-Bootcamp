@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; }
+        input { display: block; margin-bottom: 10px; padding: 5px; width: 200px; }
+        button { padding: 10px 20px; background-color: #28a745; color: white; border: none; cursor: pointer; }
+        button:disabled { background-color: #ccc; cursor: not-allowed; }
+        #message { margin-top: 20px; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+    <h2>Register</h2>
+    <form id="registerForm">
+        <input type="text" id="name" placeholder="Name" required>
+        <input type="text" id="lastName" placeholder="Last Name" required>
+        <input type="email" id="email" placeholder="Email" required>
+        <input type="text" id="username" placeholder="Username" required>
+        <input type="password" id="password" placeholder="Password" required>
+        
+        <button type="submit" id="submitBtn" disabled>Register</button>
+    </form>
+
+    <div id="message"></div>
+
+    <script>
+        const inputs = document.querySelectorAll('input');
+        const submitBtn = document.getElementById('submitBtn');
+        const messageDiv = document.getElementById('message');
+
+        // Enable/Disable button based on inputs
+        inputs.forEach(input => {
+            input.addEventListener('input', checkInputs);
+        });
+
+        function checkInputs() {
+            let allFilled = true;
+            inputs.forEach(input => {
+                if (!input.value) allFilled = false;
+            });
+            submitBtn.disabled = !allFilled;
+        }
+
+        // Handle Form Submission
+        document.getElementById('registerForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const userData = {
+                name: document.getElementById('name').value,
+                lastName: document.getElementById('lastName').value,
+                email: document.getElementById('email').value,
+                username: document.getElementById('username').value,
+                password: document.getElementById('password').value
+            };
+
+            try {
+                const response = await fetch('/register', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(userData)
+                });
+
+                const text = await response.text();
+                
+                if (text === 'register') {
+                    messageDiv.style.color = 'green';
+                    messageDiv.textContent = 'register: User successfully registered!';
+                } else if (text === 'error1') {
+                    messageDiv.style.color = 'red';
+                    messageDiv.textContent = 'error1: Username or Email already exists.';
+                } else {
+                    messageDiv.style.color = 'red';
+                    messageDiv.textContent = text;
+                }
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        });
+    </script>
+</body>
+</html>

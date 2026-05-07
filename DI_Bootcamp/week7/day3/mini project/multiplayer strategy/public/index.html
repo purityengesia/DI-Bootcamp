@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Grid Strike API</title>
+    <style>
+        #board { 
+            display: grid; 
+            grid-template-columns: repeat(10, 40px); 
+            grid-template-rows: repeat(10, 40px); 
+            gap: 2px; background: #333; width: max-content; margin: 20px auto;
+        }
+        .cell { width: 40px; height: 40px; background: #eee; display: flex; align-items: center; justify-content: center; font-size: 12px; }
+        .obstacle { background: #555; }
+        .p1 { background: #3498db; border-radius: 50%; width: 30px; height: 30px; }
+        .p2 { background: #e74c3c; border-radius: 50%; width: 30px; height: 30px; }
+        .base-p1 { border: 3px solid #3498db; }
+        .base-p2 { border: 3px solid #e74c3c; }
+        .controls { text-align: center; }
+    </style>
+</head>
+<body>
+    <h2 id="status" style="text-align: center;">Loading...</h2>
+    <div id="board"></div>
+    <div class="controls">
+        <button onclick="move('up')">UP</button><br>
+        <button onclick="move('left')">LEFT</button>
+        <button onclick="move('right')">RIGHT</button><br>
+        <button onclick="move('down')">DOWN</button>
+        <hr>
+        <button onclick="reset()">Reset Game</button>
+    </div>
+
+    <script>
+        let currentPlayer = 'p1';
+
+        async function updateBoard() {
+            const res = await fetch('/game/state');
+            const state = await res.json();
+            
+            const board = document.getElementById('board');
+            board.innerHTML = '';
+            currentPlayer = state.turn;
+
+            document.getElementById('status').innerText = state.winner 
+                ? `WINNER: ${state.players[state.winner].name}!` 
+                : `Turn: ${state.players[state.turn].name}`;
+
+            for (let y = 0; y < 10; y++) {
+                for (let x = 0; x < 10; x++) {
+                    const cell = document.createElement('div');
+                    cell.className = 'cell';
+
+                    // Draw Bases
+                    if (x === 0 && y === 0) cell.classList.add('base-p1');
+                    if (x === 9 && y === 9) cell.classList.add('base-p2');
+
+                    // Draw Obstacles
+                    if (state.obstacles.some(o => o.x === x && o.y === y)) cell.classList.add('obstacle');
+
+                    // Draw Players
+                    if (state.players.p1.pos.x === x && state.players.p1.pos.y === y) {
+                        const p = document.createElement('div'); p.className = 'p1'; cell.appendChild(p);
+                    }
+                    if (state.players.p2.pos.x === x && state.players.p2.pos.y === y) {
+                        const p = document.createElement('div'); p.className = 'p2'; cell.appendChild(p);
+                    }
+
+                    board.appendChild(cell);
+                }
+            }
+        }
+
+        async function move(dir) {
+            await fetch('/game/move', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ player: currentPlayer, direction: dir })
+            });
+            updateBoard();
+        }
+
+        async function reset() {
+            await fetch('/game/reset', { method: 'POST' });
+            updateBoard();
+        }
+
+        updateBoard();
+    </script>
+</body>
+</html>
