@@ -1,0 +1,29 @@
+{
+  "SocialMedias": [
+    "Facebook",
+    "Twitter",
+    "LinkedIn",
+    "Instagram"
+  ],
+  "Skills": [
+    "JavaScript",
+    "React",
+    "HTML",
+    "CSS",
+    "Node.js"
+  ],
+  "Experiences": [
+    {
+      "id": 1,
+      "year": "2020-2021",
+      "company": "Tech Corp",
+      "role": "Junior Developer"
+    },
+    {
+      "id": 2,
+      "year": "2021-Present",
+      "company": "Web Solutions",
+      "role": "Senior Developer"
+    }
+  ]
+}

@@ -1,0 +1,115 @@
+body {
+    background-color: #282c34;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.compass-container {
+    position: relative;
+    width: 400px;
+    height: 400px;
+    border-radius: 50%;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Corner positioning */
+.corner-tl {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #61dafb;
+}
+
+.corner-br {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #61dafb;
+}
+
+/* The main circular area */
+.compass-face {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+}
+
+/* Items positioned in a rotated format */
+.compass-item {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100px;
+    text-align: center;
+    /* Important: ensures text remains readable while being positioned in circle */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.compass-item .label {
+    font-size: 0.7rem;
+    color: #aaa;
+    text-transform: uppercase;
+}
+
+.compass-item .value {
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+/* Central Linear Display */
+.linear-display {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    background: rgba(0, 0, 0, 0.3);
+    padding: 15px;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    z-index: 10;
+}
+
+.linear-date {
+    font-size: 0.9rem;
+    margin-bottom: 5px;
+    color: #ccc;
+}
+
+.linear-time {
+    font-size: 1.5rem;
+    font-weight: bold;
+    letter-spacing: 2px;
+}
+
+.seconds {
+    color: #61dafb;
+    font-size: 1.2rem;
+}
+
+/* 5. Simple Animation */
+@keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(97, 218, 251, 0.4); }
+    70% { box-shadow: 0 0 0 10px rgba(97, 218, 251, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(97, 218, 251, 0); }
+}
+
+.compass-container {
+    animation: pulse 2s infinite;
+}
