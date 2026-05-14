@@ -1,0 +1,41 @@
+<%- include('../partials/head') %>
+<%- include('../partials/header') %>
+
+<div class="container mt-4 mb-5">
+    <h1 class="text-center mb-4">Search Facts</h1>
+    
+    <div class="row justify-content-center">
+        <!-- Search by Title Form -->
+        <div class="col-md-5 mb-3">
+            <div class="card p-3">
+                <h4 class="card-title text-center mb-3">By Title</h4>
+                <form action="/search/title" method="POST">
+                    <div class="input-group">
+                        <input type="text" name="title" class="form-control" placeholder="Enter keyword..." required>
+                        <button class="btn btn-primary" type="submit">Search</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Search by Category Form -->
+        <div class="col-md-5 mb-3">
+            <div class="card p-3">
+                <h4 class="card-title text-center mb-3">By Category</h4>
+                <form action="/search/category" method="POST">
+                    <select name="category" class="form-select mb-3" required>
+                        <option value="" selected disabled>Select a category</option>
+                        <% categories.forEach(function(cat) { %>
+                            <option value="<%= cat %>"><%= cat %></option>
+                        <% }) %>
+                    </select>
+                    <button class="btn btn-primary w-100" type="submit">Filter</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Display Results Here -->
+<%- include('../partials/posts') %>
+<%- include('../partials/footer') %>

@@ -1,0 +1,36 @@
+<div class="container">
+    <% if (posts && posts.length > 0) { %>
+        <div class="row">
+            <% posts.forEach(function(post) { %>
+                <div class="col-lg-8 offset-lg-2">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <!-- Link redirects to the specific post URL provided in the feed -->
+                                <a href="<%= post.link %>" target="_blank"><%= post.title %></a>
+                            </h5>
+                            
+                            <div class="meta-info">
+                                <span><strong>Date:</strong> <%= new Date(post.pubDate).toLocaleDateString() %></span> | 
+                                <span><strong>Creator:</strong> <%= post.creator || 'Unknown' %></span>
+                            </div>
+                            
+                            <div class="mb-2">
+                                <% if (post.categories) { %>
+                                    <% post.categories.forEach(function(cat) { %>
+                                        <span class="badge bg-secondary"><%= cat %></span>
+                                    <% }) %>
+                                <% } %>
+                            </div>
+                            
+                            <p class="card-text"><%= post.contentSnippet %></p>
+                            <a href="<%= post.link %>" target="_blank" class="btn btn-sm btn-outline-primary">Read More</a>
+                        </div>
+                    </div>
+                </div>
+            <% }) %>
+        </div>
+    <% } else { %>
+        <div class="alert alert-warning text-center">No posts found to display.</div>
+    <% } %>
+</div>
