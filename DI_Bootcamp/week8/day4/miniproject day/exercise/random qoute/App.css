@@ -1,0 +1,53 @@
+/* App.css */
+body {
+  margin: 0;
+  font-family: 'Arial', sans-serif;
+  transition: background-color 0.5s ease; /* Smooth transition for background */
+}
+
+.app-container {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: background-color 0.5s ease;
+}
+
+.quote-box {
+  background: white;
+  padding: 40px;
+  border-radius: 10px;
+  width: 400px;
+  text-align: center;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.quote-text {
+  font-size: 24px;
+  font-weight: bold;
+  transition: color 0.5s ease;
+}
+
+.quote-author {
+  font-size: 18px;
+  font-style: italic;
+  color: #555;
+}
+
+.new-quote-btn {
+  padding: 12px 24px;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.5s ease, transform 0.2s;
+}
+
+.new-quote-btn:hover {
+  transform: scale(1.05);
+  opacity: 0.9;
+}
