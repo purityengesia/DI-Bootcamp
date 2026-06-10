@@ -1,0 +1,2 @@
+// Simulated Database
+const users = [];
