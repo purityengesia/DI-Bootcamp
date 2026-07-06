@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Developer Portfolio</title>
+    <style>
+        /* CSS Variables for easy color management */
+        :root {
+            --primary-color: #2563eb;
+            --dark-bg: #0f172a;
+            --light-text: #f8fafc;
+            --gray-text: #94a3b8;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--light-text);
+            background-color: var(--dark-bg);
+            scroll-behavior: smooth;
+        }
+
+        /* Navigation */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 10%;
+            background: rgba(15, 23, 42, 0.95);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav ul li a {
+            color: var(--light-text);
+            text-decoration: none;
+            margin-left: 2rem;
+            transition: color 0.3s;
+        }
+
+        nav ul li a:hover {
+            color: var(--primary-color);
+        }
+
+        /* Hero Section */
+        #hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 20px;
+        }
+
+        .highlight {
+            color: var(--primary-color);
+        }
+
+        .btn {
+            display: inline-block;
+            background: var(--primary-color);
+            color: white;
+            padding: 0.8rem 2rem;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 1.5rem;
+            transition: transform 0.3s;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+        }
+
+        /* Section Layouts */
+        section {
+            padding: 8rem 10% 4rem;
+        }
+
+        h2 {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            border-left: 5px solid var(--primary-color);
+            padding-left: 1rem;
+        }
+
+        /* Skills */
+        .skills-container span {
+            background: #1e293b;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            margin: 0.5rem;
+            display: inline-block;
+            font-size: 0.9rem;
+        }
+
+        /* Project Grid */
+        .project-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .project-card {
+            background: #1e293b;
+            padding: 2rem;
+            border-radius: 10px;
+            transition: 0.3s;
+        }
+
+        .project-card:hover {
+            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+            transform: translateY(-5px);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 2rem;
+            background: #020617;
+            color: var(--gray-text);
+            margin-top: 4rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            nav ul {
+                display: none;
+            }
+            h1 { font-size: 2rem; }
+            section { padding: 5rem 5% 2rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <nav>
+            <div class="logo"><strong>DevPortfolio</strong></div>
+            <ul>
+                <li><a href="#about">About</a></li>
+                <li><a href="#skills">Skills</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section id="hero">
+        <h1>Hi, I'm a <span class="highlight">Full-Stack Developer</span></h1>
+        <p>Building clean, scalable, and user-friendly web applications.</p>
+        <a href="#projects" class="btn">View My Work</a>
+    </section>
+
+    <section id="about">
+        <h2>About Me</h2>
+        <p>I am a software development student with a deep interest in algorithmic logic and responsive design. I enjoy turning complex problems into simple, beautiful, and intuitive web solutions.</p>
+    </section>
+
+    <section id="skills">
+        <h2>Technical Skills</h2>
+        <div class="skills-container">
+            <span>JavaScript</span>
+            <span>TypeScript</span>
+            <span>Python</span>
+            <span>HTML/CSS</span>
+            <span>Node.js</span>
+    
+        </div>
+    </section>
+
+    <section id="projects">
+        <h2>Featured Projects</h2>
+        <div class="project-grid">
+            <div class="project-card">
+                <h3>Purii Bakery Storefront</h3>
+                <p>A digital storefront project built with modern CSS and HTML to showcase products effectively.</p>
+            </div>
+            <div class="project-card">
+                <h3>Currency Converter</h3>
+                <p>A real-time tool using Fetch API to handle asynchronous data and complex logic.</p>
+            </div>
+            <div class="project-card">
+                <h3>E-Learning Portal</h3>
+                <p>A robust interface designed for schools, focusing on clear hierarchy and user experience.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact">
+        <h2>Get In Touch</h2>
+        <p>I'm always open to discussing new projects or creative opportunities.</p>
+        <a href="mailto:your.email@example.com" class="btn">Email Me</a>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 Web Dev Portfolio. Built with passion.</p>
+    </footer>
+
+</body>
+</html>

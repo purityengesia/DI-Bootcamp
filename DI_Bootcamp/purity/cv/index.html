@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Professional CV</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<style>
+    /* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
+    line-height: 1.6;
+}
+
+/* Grid Layout for CV */
+.cv-container {
+    display: grid;
+    grid-template-columns: 1fr 2fr; /* Sidebar is 1 part, main content is 2 parts */
+    max-width: 1000px;
+    margin: 40px auto;
+    background: #fff;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+
+/* Sidebar Styling */
+.sidebar {
+    background-color: #2c3e50;
+    color: #fff;
+    padding: 40px;
+}
+
+.profile-img img {
+    width: 100%;
+    border-radius: 50%;
+    border: 5px solid #34495e;
+    margin-bottom: 20px;
+}
+
+/* Flexbox for Social Icons */
+.social-icons {
+    display: flex;
+    gap: 15px;
+    margin-top: 10px;
+}
+
+.social-icons a {
+    color: #fff;
+    font-size: 1.5rem;
+    transition: color 0.3s;
+}
+
+.social-icons a:hover {
+    color: #3498db;
+}
+
+/* Main Content Styling */
+.main-content {
+    padding: 40px;
+}
+
+header h1 {
+    font-size: 3rem;
+    color: #2c3e50;
+}
+
+section {
+    margin-bottom: 30px;
+}
+
+/* Form Styling */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+input, textarea {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+button {
+    background: #2c3e50;
+    color: white;
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+button:hover {
+    background: #34495e;
+}
+
+/* Media Query for Responsiveness */
+@media screen and (max-width: 768px) {
+    .cv-container {
+        grid-template-columns: 1fr; /* Switch to single column on small screens */
+    }
+    
+    .sidebar {
+        text-align: center;
+    }
+
+    .social-icons {
+        justify-content: center;
+    }
+}/* Your CSS styles here */
+</style>
+<body>
+
+    <div class="cv-container">
+        <aside class="sidebar">
+            <div class="profile-img">
+                <img src="1000007936.jpg">
+            </div>
+            <section class="contact-info">
+                <h3>Contact</h3>
+                <p><i class="fas fa-envelope"></i>purityengesia@gmail.com</p>
+                <p><i class="fas fa-phone"></i> +254797386682</p>
+                <p><i class="fas fa-location-dot"></i> Nairobi, Kenya</p>
+            </section>
+            <section class="socials">
+                <h3>Follow Me</h3>
+                <div class="social-icons">
+                    <a href="https://linkedin.com" target="_blank"><i class="fa-brands fa-linkedin"></i></a>
+                    <a href="https://github.com" target="_blank"><i class="fa-brands fa-github"></i></a>
+                    <a href="https://twitter.com" target="_blank"><i class="fa-brands fa-twitter"></i></a>
+                </div>
+            </section>
+        </aside>
+
+        <main class="main-content">
+            <header>
+                <h1>Purity Engesia
+                </h1>
+                <h2>Full-Stack Developer</h2>
+            </header>
+
+            <section class="about">
+                <h3>Professional Summary</h3>
+                <p>A passionate developer with experience in building responsive web applications using modern technologies.</p>
+            </section>
+
+            <section class="experience">
+                <h3>Work Experience</h3>
+                <div class="job">
+                    <h4>Web Developer | Tech Solutions</h4>
+                    <span>one month</span>
+                    <p>assisted in building website features using HTML, CSS, and Javascript.</p>
+                    <p> Learned Git/Github for version control.</p>
+                </div>
+            </section>
+
+            <section id="contact-form">
+                <h3>Get In Touch</h3>
+                <form>
+                    <input type="text" placeholder="Your Name" required>
+                    <input type="email" placeholder="Your Email" required>
+                    <textarea placeholder="Your Message" rows="5"></textarea>
+                    <button type="submit">Send Message</button>
+                </form>
+            </section>
+        </main>
+    </div>
+
+</body>
+</html>
